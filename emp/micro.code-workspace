@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "../micro-app"
+		},
+		{
+			"path": "../qiankun"
+		}
+	]
+}
