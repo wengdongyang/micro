@@ -1,10 +1,9 @@
 <template>
-  <n-config-provider :locale="zhCN" :date-locale="dateZhCN">
-    <RouterView />
-  </n-config-provider>
+  <section></section>
 </template>
 <script lang="jsx" setup>
-import { dateZhCN, zhCN } from 'naive-ui';
+import { ref, computed, watch } from 'vue';
+import { get, set, tryOnMounted } from '@vueuse/core';
 // apis
 // hooks
 // utils
@@ -19,5 +18,7 @@ import { dateZhCN, zhCN } from 'naive-ui';
 // computed
 // methods
 // watch
+
+tryOnMounted(() => { });
 </script>
 <style lang="less" scoped></style>
