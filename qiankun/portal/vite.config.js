@@ -25,7 +25,7 @@ export default defineConfig({
         data: {
           title: '驾驶舱模板系统',
           injectCss: [],
-          injectScript: []
+          injectScript: [],
         },
         tags: [{ injectTo: 'body-prepend', tag: 'section', attrs: { id: 'app' } }],
       },
@@ -34,8 +34,8 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),
-      '@src': fileURLToPath(new URL('./src', import.meta.url))
-    }
+      '@src': fileURLToPath(new URL('./src', import.meta.url)),
+    },
   },
   server: {
     port: 5173,

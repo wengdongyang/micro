@@ -1,0 +1,195 @@
+<!-- @format -->
+<template>
+  <n-form
+    class="form"
+    :ref="ref => (formRef = ref)"
+    :model="formState"
+    label-placement="left"
+    size="large"
+  >
+    <n-form-item
+      class="form-item"
+      path="username"
+      :rule="{ required: true, message: '请输入系统用户账号', trigger: ['input', 'blur'] }"
+    >
+      <n-input
+        class="input"
+        v-model:value="formState.username"
+        placeholder="系统用户账号"
+        type="text"
+        clearable
+      >
+        <template #prefix>
+          <i class="fa fa-user" />
+        </template>
+      </n-input>
+    </n-form-item>
+    <n-form-item
+      class="form-item"
+      path="password"
+      :rule="{ required: true, message: '请输入密码', trigger: ['input', 'blur'] }"
+    >
+      <n-input
+        class="input"
+        v-model:value="formState.password"
+        placeholder="请输入密码"
+        show-password-on="click"
+        type="password"
+        clearable
+      >
+        <template #prefix>
+          <i class="fa fa-lock" />
+        </template>
+      </n-input>
+    </n-form-item>
+    <n-form-item
+      class="form-item"
+      path="code"
+      :rule="{ required: true, message: '请输入密码', trigger: ['input', 'blur'] }"
+    >
+      <n-grid>
+        <n-grid-item :span="18">
+          <n-input
+            class="input-code"
+            v-model:value="formState.code"
+            placeholder="验证码"
+            clearable
+          >
+            <template #prefix>
+              <i class="fa fa-check-circle" />
+            </template>
+          </n-input>
+        </n-grid-item>
+        <n-grid-item :span="6">
+          <CaptchaImage
+            class="captcha-image"
+            :ref="ref => (captchaImageRef = ref)"
+            v-model:uuid="formState.uuid"
+            @updateCaptchaImage="onUpdateCaptchaImage"
+          />
+        </n-grid-item>
+      </n-grid>
+    </n-form-item>
+    <n-form-item class="form-item">
+      <n-checkbox
+        class="remember-me"
+        v-model:checked="isRememberMe"
+        >记住密码</n-checkbox
+      >
+    </n-form-item>
+    <n-form-item class="form-item">
+      <n-button
+        class="login-btn"
+        type="primary"
+        block
+        @click="onClickLogin"
+      >
+        登 录
+      </n-button>
+    </n-form-item>
+  </n-form>
+</template>
+<script lang="jsx" setup>
+import { get, set, tryOnMounted } from '@vueuse/core';
+import { message } from 'ant-design-vue';
+import { storeToRefs } from 'pinia';
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+// apis
+import { apiGetGetInfo } from '@src/apis';
+// hooks
+// utils
+// stores
+import { useLoginFormState, useUserAuth } from '@src/stores';
+// configs
+import { ENV } from '@src/configs';
+// components
+import CaptchaImage from './CaptchaImage.vue';
+const { push } = useRouter();
+const storeUserAuth = useUserAuth();
+const storeLoginFormState = useLoginFormState();
+const { computedTenantLoginFormState, computedTenantIsRememberMe } = storeToRefs(storeLoginFormState);
+// props
+// emits
+// refs
+const formRef = ref(null);
+const captchaImageRef = ref(null);
+// computed
+// methods
+// watch
+
+const formState = ref(
+  ENV.MODE === 'development'
+    ? { username: ENV.TENANT_USERNAME, password: ENV.TENANT_PASSWORD, code: '', uuid: '' }
+    : { username: '', password: '', code: '', uuid: '' },
+);
+const isRememberMe = ref(false);
+
+const initFormState = () => {
+  try {
+    const storeIsRememberMe = get(computedTenantIsRememberMe);
+    const storeLoginFormState = get(computedTenantLoginFormState);
+    if (storeIsRememberMe) {
+      set(isRememberMe, storeIsRememberMe);
+      set(formState, Object.assign(storeLoginFormState, { code: '', uuid: '' }));
+    }
+  } catch (error) {
+    console.warn(error);
+  }
+};
+
+const getUserInfoPermissionsRoles = async () => {
+  try {
+    const res = await apiGetGetInfo();
+    const { code, msg } = res;
+    if (code === 200) {
+      storeUserAuth.setUserInfoRolesPermissionsRoles(res);
+      push({ path: '/index' });
+    } else {
+      message.error(msg);
+    }
+  } catch (error) {
+    console.warn(error);
+  }
+};
+
+const onUpdateCaptchaImage = () => {
+  try {
+    set(formState, Object.assign({}, get(formState), { code: '' }));
+  } catch (error) {
+    console.warn(error);
+  }
+};
+
+const onClickLogin = async () => {
+  try {
+    const values = get(formState);
+    const res = await apiPostLoginTenant(values);
+    const innerIsRememberMe = get(isRememberMe);
+
+    const { code, msg } = res;
+    if (code === 200) {
+      storeUserAuth.setLoginToken(res);
+
+      sessionStorage.setItem(ENV.TOKEN_KEY, res.token);
+      sessionStorage.setItem(ENV.MG_TOKEN_KEY, res.mgToken);
+
+      storeLoginFormState.setTenantLoginFormState(innerIsRememberMe ? values : {});
+      storeLoginFormState.setTenantIsRememberMe(innerIsRememberMe);
+
+      getUserInfoPermissionsRoles();
+    } else {
+      message.error(msg);
+      captchaImageRef.value?.resetCaptchaImage();
+    }
+  } catch (error) {
+    console.warn(error);
+  }
+};
+tryOnMounted(() => {
+  initFormState();
+});
+</script>
+<style lang="less" scoped>
+@import './LoginForm.less';
+</style>

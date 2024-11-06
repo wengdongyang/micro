@@ -17,6 +17,7 @@
     "@wangeditor/editor-for-vue": "^1.0.2",
     "ahooks-vue": "^0.15.1",
     "animate.css": "^4.1.1",
+    "ant-design-vue": "^4.2.5",
     "axios": "^1.7.7",
     "classnames": "^2.5.1",
     "crypto-js": "^4.2.0",
