@@ -1,6 +1,7 @@
 import { fileURLToPath, URL } from 'node:url';
 
 import { defineConfig } from 'vite';
+import UnoCSS from 'unocss/vite';
 import vue from '@vitejs/plugin-vue';
 import vueJsx from '@vitejs/plugin-vue-jsx';
 // import { viteMockServe } from 'vite-plugin-mock';
@@ -13,9 +14,9 @@ export default defineConfig({
   plugins: [
     vue(),
     vueJsx(),
+    UnoCSS(),
     vueDevTools(),
-    // setup上主动命名
-    vueSetupExtend({ enableAutoExpose: true }),
+    vueSetupExtend({ enableAutoExpose: true }), // setup上主动命名
     // html模板
     createHtmlPlugin({
       minify: true,
@@ -23,7 +24,7 @@ export default defineConfig({
       template: '/public/index.html',
       inject: {
         data: {
-          title: '驾驶舱模板系统',
+          title: '小镇在线',
           injectCss: [],
           injectScript: [],
         },
@@ -31,9 +32,13 @@ export default defineConfig({
       },
     }),
   ],
+  css: {
+    preprocessorOptions: {
+      scss: { api: 'modern-compiler' },
+    },
+  },
   resolve: {
     alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url)),
       '@src': fileURLToPath(new URL('./src', import.meta.url)),
     },
   },

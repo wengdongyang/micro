@@ -1,4 +1,3 @@
-/** @format */
 import 'minireset.css/minireset.css';
 import 'nprogress/nprogress.css';
 import 'ant-design-vue/dist/reset.css';
@@ -14,11 +13,12 @@ import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 import 'swiper/css/effect-coverflow';
 
+import 'virtual:uno.css';
+
 import './styles/reset/index.less';
 
 import dayjs from 'dayjs';
 import lodash from 'lodash';
-import naive from 'naive-ui';
 import { createApp } from 'vue';
 import Antd from 'ant-design-vue';
 import { createPinia } from 'pinia';
@@ -40,6 +40,6 @@ pinia.use(({ store }) => {
   };
 });
 
-app.use(naive).use(Antd).use(pinia).use(router);
+app.use(Antd).use(pinia).use(router);
 
 app.mount('#app');

@@ -1,7 +1,7 @@
 <template>
-  <section></section>
+  <section>workbench</section>
 </template>
-<script lang="jsx" setup>
+<script lang="jsx" name="workbench" setup>
 import { ref, computed, watch } from 'vue';
 import { get, set, tryOnMounted } from '@vueuse/core';
 // apis

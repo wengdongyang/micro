@@ -1,55 +1,54 @@
-<!-- @format -->
 <template>
-  <n-form
+  <NForm
     class="form"
     :ref="ref => (formRef = ref)"
     :model="formState"
-    label-placement="left"
     size="large"
+    label-placement="left"
   >
-    <n-form-item
+    <NFormItem
       class="form-item"
       path="username"
       :rule="{ required: true, message: '请输入系统用户账号', trigger: ['input', 'blur'] }"
     >
-      <n-input
+      <NInput
         class="input"
         v-model:value="formState.username"
-        placeholder="系统用户账号"
         type="text"
+        placeholder="系统用户账号"
         clearable
       >
         <template #prefix>
           <i class="fa fa-user" />
         </template>
-      </n-input>
-    </n-form-item>
-    <n-form-item
+      </NInput>
+    </NFormItem>
+    <NFormItem
       class="form-item"
       path="password"
       :rule="{ required: true, message: '请输入密码', trigger: ['input', 'blur'] }"
     >
-      <n-input
+      <NInput
         class="input"
         v-model:value="formState.password"
+        type="password"
         placeholder="请输入密码"
         show-password-on="click"
-        type="password"
         clearable
       >
         <template #prefix>
           <i class="fa fa-lock" />
         </template>
-      </n-input>
-    </n-form-item>
-    <n-form-item
+      </NInput>
+    </NFormItem>
+    <NFormItem
       class="form-item"
       path="code"
       :rule="{ required: true, message: '请输入密码', trigger: ['input', 'blur'] }"
     >
-      <n-grid>
-        <n-grid-item :span="18">
-          <n-input
+      <NGrid>
+        <NGridItem :span="18">
+          <NInput
             class="input-code"
             v-model:value="formState.code"
             placeholder="验证码"
@@ -58,36 +57,37 @@
             <template #prefix>
               <i class="fa fa-check-circle" />
             </template>
-          </n-input>
-        </n-grid-item>
-        <n-grid-item :span="6">
+          </NInput>
+        </NGridItem>
+        <NGridItem :span="6">
           <CaptchaImage
             class="captcha-image"
             :ref="ref => (captchaImageRef = ref)"
             v-model:uuid="formState.uuid"
             @updateCaptchaImage="onUpdateCaptchaImage"
           />
-        </n-grid-item>
-      </n-grid>
-    </n-form-item>
-    <n-form-item class="form-item">
-      <n-checkbox
+        </NGridItem>
+      </NGrid>
+    </NFormItem>
+    <NFormItem class="form-item">
+      <NCheckbox
         class="remember-me"
         v-model:checked="isRememberMe"
-        >记住密码</n-checkbox
       >
-    </n-form-item>
-    <n-form-item class="form-item">
-      <n-button
+        记住密码
+      </NCheckbox>
+    </NFormItem>
+    <NFormItem class="form-item">
+      <NButton
         class="login-btn"
-        type="primary"
-        block
+        type="info"
         @click="onClickLogin"
+        block
       >
         登 录
-      </n-button>
-    </n-form-item>
-  </n-form>
+      </NButton>
+    </NFormItem>
+  </NForm>
 </template>
 <script lang="jsx" setup>
 import { get, set, tryOnMounted } from '@vueuse/core';
@@ -95,19 +95,20 @@ import { message } from 'ant-design-vue';
 import { storeToRefs } from 'pinia';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
+import { NForm, NFormItem, NGrid, NGridItem, NInput, NCheckbox, NButton } from 'naive-ui';
 // apis
 import { apiGetGetInfo } from '@src/apis';
 // hooks
 // utils
 // stores
-import { useLoginFormState, useUserAuth } from '@src/stores';
+import { useStoreLoginFormState, useStoreUserAuth } from '@src/stores';
 // configs
 import { ENV } from '@src/configs';
 // components
 import CaptchaImage from './CaptchaImage.vue';
 const { push } = useRouter();
-const storeUserAuth = useUserAuth();
-const storeLoginFormState = useLoginFormState();
+const storeUserAuth = useStoreUserAuth();
+const storeLoginFormState = useStoreLoginFormState();
 const { computedTenantLoginFormState, computedTenantIsRememberMe } = storeToRefs(storeLoginFormState);
 // props
 // emits
@@ -144,7 +145,7 @@ const getUserInfoPermissionsRoles = async () => {
     const { code, msg } = res;
     if (code === 200) {
       storeUserAuth.setUserInfoRolesPermissionsRoles(res);
-      push({ path: '/index' });
+      push({ name: 'system' });
     } else {
       message.error(msg);
     }
@@ -163,24 +164,27 @@ const onUpdateCaptchaImage = () => {
 
 const onClickLogin = async () => {
   try {
-    const values = get(formState);
-    const res = await apiPostLoginTenant(values);
-    const innerIsRememberMe = get(isRememberMe);
+    const isValidate = await formRef.value.validate();
+    if (isValidate) {
+      const values = get(formState);
+      const res = await apiPostLoginTenant(values);
+      const innerIsRememberMe = get(isRememberMe);
 
-    const { code, msg } = res;
-    if (code === 200) {
-      storeUserAuth.setLoginToken(res);
+      const { code, msg } = res;
+      if (code === 200) {
+        storeUserAuth.setLoginToken(res);
 
-      sessionStorage.setItem(ENV.TOKEN_KEY, res.token);
-      sessionStorage.setItem(ENV.MG_TOKEN_KEY, res.mgToken);
+        sessionStorage.setItem(ENV.TOKEN_KEY, res.token);
+        sessionStorage.setItem(ENV.MG_TOKEN_KEY, res.mgToken);
 
-      storeLoginFormState.setTenantLoginFormState(innerIsRememberMe ? values : {});
-      storeLoginFormState.setTenantIsRememberMe(innerIsRememberMe);
+        storeLoginFormState.setTenantLoginFormState(innerIsRememberMe ? values : {});
+        storeLoginFormState.setTenantIsRememberMe(innerIsRememberMe);
 
-      getUserInfoPermissionsRoles();
-    } else {
-      message.error(msg);
-      captchaImageRef.value?.resetCaptchaImage();
+        getUserInfoPermissionsRoles();
+      } else {
+        message.error(msg);
+        captchaImageRef.value?.resetCaptchaImage();
+      }
     }
   } catch (error) {
     console.warn(error);

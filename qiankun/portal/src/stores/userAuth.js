@@ -1,8 +1,10 @@
 /** @format */
 import { get, set } from '@vueuse/core';
+import dayjs from 'dayjs';
 import lodash from 'lodash';
 import { defineStore } from 'pinia';
-import { computed, ref } from 'vue';
+import { computed, ref, watch } from 'vue';
+import { useRouter } from 'vue-router';
 // apis
 // hooks
 // utils
@@ -10,8 +12,8 @@ import { computed, ref } from 'vue';
 // mixins
 // configs
 // components
-export const useLoginFormState = defineStore(
-  'loginFormState',
+export const useStoreLoginFormState = defineStore(
+  'storeLoginFormState',
   () => {
     ////////////////////系统用户////////////////////
     const ADMIN_LOGIN_FORM_STATE = ref({});
@@ -98,8 +100,8 @@ export const useLoginFormState = defineStore(
   { persist: { storage: localStorage } },
 );
 
-export const useUserAuth = defineStore(
-  'userAuth',
+export const useStoreUserAuth = defineStore(
+  'storeUserAuth',
   () => {
     const LOGIN_TOKEN = ref({});
     const USERINFO = ref({});
@@ -145,5 +147,127 @@ export const useUserAuth = defineStore(
       setUserInfoRolesPermissionsRoles,
     };
   },
-  { persist: { storage: sessionStorage, paths: ['LOGIN_TOKEN', 'USERINFO', 'ROLES', 'PERMISSIONS'] } },
+  { persist: { storage: sessionStorage } },
+);
+
+export const useStoreSystem = defineStore(
+  'storeSystem',
+  () => {
+    const { push } = useRouter();
+    const FORMAT = 'YYYY-MM-DD HH:mm:s';
+
+    const defaultRouterTab = {
+      timeStamp: dayjs().format(FORMAT),
+      icon: 'fa-home',
+      path: 'home',
+      name: 'home',
+      title: '首页',
+      closable: false,
+      query: {},
+    };
+    const COLLAPSED = ref(false);
+
+    const ROUTERS = ref([]);
+    const ROUTER_TABS = ref([defaultRouterTab]);
+    const ACTIVE_ROUTER_TAB = ref(defaultRouterTab);
+
+    const computedCollapsed = computed(() => get(COLLAPSED));
+    const computedRouters = computed(() => get(ROUTERS));
+    const computedRouterTabs = computed(() => get(ROUTER_TABS));
+    const computedActiveRouterTab = computed(() => get(ACTIVE_ROUTER_TAB));
+
+    const setCollapsed = collapsed => {
+      try {
+        set(COLLAPSED, collapsed);
+      } catch (error) {
+        console.warn(error);
+      }
+    };
+
+    const setRouters = routers => {
+      try {
+        set(ROUTERS, routers);
+      } catch (error) {
+        console.warn(error);
+      }
+    };
+
+    const addRouterTab = tab => {
+      try {
+        const prevRouterTabs = get(ROUTER_TABS);
+        const index = prevRouterTabs.findIndex(routerTab => routerTab.name === tab.name);
+        const currentTab = Object.assign({}, tab, { closable: true, timeStamp: dayjs().format(FORMAT) });
+        if (index > -1) {
+          const nextRouterTabs = prevRouterTabs.map(routerTab => (routerTab.name === tab.name ? currentTab : routerTab));
+          set(ROUTER_TABS, nextRouterTabs);
+        } else {
+          const nextRouterTabs = prevRouterTabs.concat([currentTab]);
+          set(ROUTER_TABS, nextRouterTabs);
+        }
+
+        set(ACTIVE_ROUTER_TAB, currentTab);
+      } catch (error) {
+        console.warn(error);
+      }
+    };
+    const deleteRouterTab = tabName => {
+      try {
+        const prevRouterTabs = get(ROUTER_TABS);
+        const prevActiveRouterTab = get(ACTIVE_ROUTER_TAB);
+
+        const nextRouterTabs = prevRouterTabs.filter(routerTab => routerTab.name !== tabName);
+        set(ROUTER_TABS, nextRouterTabs);
+
+        if (prevActiveRouterTab.name === tabName) {
+          const routerTabsByTimeStamp = lodash.cloneDeep(nextRouterTabs).sort((prev, next) => (dayjs(prev.timeStamp).isBefore(dayjs(next.timeStamp)) ? 1 : -1));
+          const currentTab = routerTabsByTimeStamp[0];
+          currentTab && set(ACTIVE_ROUTER_TAB, currentTab);
+        }
+      } catch (error) {
+        console.warn(error);
+      }
+    };
+    const changeRouterTab = tab => {
+      try {
+        const prevRouterTabs = get(ROUTER_TABS);
+        const index = prevRouterTabs.findIndex(routerTab => routerTab.name === tab.name);
+        const currentTab = Object.assign({}, tab, { timeStamp: dayjs().format(FORMAT) });
+        if (index > -1) {
+          const nextRouterTabs = prevRouterTabs.map(routerTab => (routerTab.name === tab.name ? currentTab : routerTab));
+          set(ROUTER_TABS, nextRouterTabs);
+        }
+
+        set(ACTIVE_ROUTER_TAB, currentTab);
+      } catch (error) {
+        console.warn(error);
+      }
+    };
+
+    watch(
+      () => ACTIVE_ROUTER_TAB.value,
+      newValue => {
+        if (newValue.path) {
+          push({ path: `/${newValue.path}`, query: newValue.query });
+        }
+      },
+      { deep: true, immediate: true },
+    );
+
+    return {
+      COLLAPSED,
+      ROUTERS,
+      ROUTER_TABS,
+      ACTIVE_ROUTER_TAB,
+      computedCollapsed,
+      computedRouters,
+      computedRouterTabs,
+      computedActiveRouterTab,
+      setCollapsed,
+      setRouters,
+      addRouterTab,
+      deleteRouterTab,
+      changeRouterTab,
+    };
+  },
+  { persist: { storage: sessionStorage } },
 );

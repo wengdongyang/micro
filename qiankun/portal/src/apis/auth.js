@@ -27,3 +27,7 @@ export const apiPostLoginSonTenant = data => {
 export const apiGetGetInfo = () => {
   return requestGet({ url: '/getInfo' });
 };
+// 获取路由
+export const apiGetGetRouters = () => {
+  return requestGet({ url: '/getRouters' });
+};

@@ -1,7 +1,7 @@
 <template>
-  <RouterView />
+  <section>welcome</section>
 </template>
-<script lang="jsx" setup>
+<script lang="jsx" setup name="Welcome">
 // apis
 // hooks
 // utils

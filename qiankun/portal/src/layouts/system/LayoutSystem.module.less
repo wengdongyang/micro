@@ -24,7 +24,6 @@
 }
 
 .aside-layout {
-  background-color: #304156;
   .aside-header {
     display: flex;
     align-items: center;
@@ -48,10 +47,9 @@
     }
   }
   .aside-content {
+    overflow-y: auto;
+
     height: calc(100vh - 48px - 64px);
-    .menu {
-      background-color: #304156;
-    }
   }
 }
 
@@ -71,4 +69,13 @@
 
 .main-layout {
   height: calc(100vh - 64px);
+  .main-header {
+    margin-bottom: 0;
+  }
+  .main-content {
+    overflow-y: auto;
+
+    height: calc(100vh - 64px - 56px);
+    padding: 0 16px 16px 16px;
+  }
 }
