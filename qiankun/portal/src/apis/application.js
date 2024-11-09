@@ -9,13 +9,13 @@ import { requestGet, requestPost, requestDelete } from '@src/utils';
 /**
  * 获取微应用列表--租户购买
  */
-export const getApplicationSearchByTenant = params => {
+export const apiGetApplicationOwnerSearch = params => {
   return requestGet({ url: '/application/owner/search', params });
 };
 /**
  * 获取微应用列表--管理端
  */
-export const getApplicationSearch = params => {
+export const apiGetApplicationSearch = params => {
   return requestGet({ url: '/application/search', params });
 };
 /**

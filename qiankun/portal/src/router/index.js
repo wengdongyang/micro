@@ -9,12 +9,13 @@ import { createRouter, createWebHashHistory } from 'vue-router';
 import { ENV } from '@src/configs/index.js';
 // components
 import LayoutLogin from '@src/layouts/login/LayoutLogin.vue';
+import LayoutMicro from '@src/layouts/micro/LayoutMicro.vue';
 import LayoutSystem from '@src/layouts/system/LayoutSystem.vue';
 
 import Welcome from '@src/pages/welcome/index.vue';
 
 const router = createRouter({
-  history: createWebHashHistory(import.meta.env.BASE_URL),
+  history: createWebHashHistory(ENV.BASE_URL),
   routes: [
     { path: '/login', name: 'login', component: LayoutLogin },
     {
@@ -31,7 +32,6 @@ const router = createRouter({
         { path: 'messageCenter', name: 'messageCenter', component: Welcome, meta: { icon: 'fa-home', title: '消息中心' } },
         { path: 'announcementCenter', name: 'announcementCenter', component: Welcome, meta: { icon: 'fa-home', title: '公告中心' } },
         { path: 'applicationCenter', name: 'applicationCenter', component: Welcome, meta: { icon: 'fa-home', title: '应用中心' } },
-
         { path: 'tenant', name: 'tenant', component: Welcome, meta: { icon: 'fa-home', title: '租户管理' } },
         { path: 'user', name: 'user', component: Welcome, meta: { icon: 'fa-home', title: '用户管理' } },
         { path: 'publicEndUser', name: 'publicEndUser', component: Welcome, meta: { icon: 'fa-home', title: '公众端用户管理' } },
@@ -56,7 +56,6 @@ const router = createRouter({
         { path: 'formConstruction', name: 'formConstruction', component: Welcome, meta: { icon: 'fa-home', title: '表单构建' } },
         { path: 'codeGeneration', name: 'codeGeneration', component: Welcome, meta: { icon: 'fa-home', title: '代码生成' } },
         { path: 'systemInterface', name: 'systemInterface', component: Welcome, meta: { icon: 'fa-home', title: '系统接口' } },
-
         // 渣土车
         { path: 'slagCarEvent', name: 'slagCarEvent', component: Welcome, meta: { icon: 'fa-home', title: '事件管理' } },
         { path: 'slagCarInspectionRecord', name: 'slagCarInspectionRecord', component: Welcome, meta: { icon: 'fa-home', title: '巡查记录' } },
@@ -70,9 +69,13 @@ const router = createRouter({
         { path: 'uavReportEventList', name: 'uavReportEventList', component: Welcome, meta: { icon: 'fa-home', title: '上报事件' } },
         { path: 'uavInspectionRecordList', name: 'uavInspectionRecordList', component: Welcome, meta: { icon: 'fa-home', title: '巡查记录' } },
         { path: 'uavCommunityPersonnel', name: 'uavCommunityPersonnel', component: Welcome, meta: { icon: 'fa-home', title: '小区配置' } },
-
         { path: '/:pathMatch(.*)', name: 'welcome', component: Welcome },
       ],
+    },
+    {
+      path: '/micro/:microAppId',
+      name: 'micro',
+      component: LayoutMicro,
     },
   ],
 });
