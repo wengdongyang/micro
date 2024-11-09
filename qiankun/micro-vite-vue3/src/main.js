@@ -1,19 +1,19 @@
-import { renderWithQiankun, qiankunWindow } from 'vite-plugin-qiankun/dist/helper';
+import { qiankunWindow, renderWithQiankun } from 'vite-plugin-qiankun/dist/helper';
 import { createApp } from 'vue';
+
 import App from './App.vue';
 
 let instance;
 const render = props => {
   const { container } = props;
-  props.onGlobalStateChange((state, prev) => {
-    console.error('onGlobalStateChange', props, state, prev);
+  props.onGlobalStateChange(state => {
+    console.warn('onGlobalStateChange', props, state);
   });
   instance = createApp(App).mount(container ? container.querySelector('#app') : '#app');
 
   console.error(instance);
 };
 
-// some code
 renderWithQiankun({
   mount(props) {
     console.log('mount');
