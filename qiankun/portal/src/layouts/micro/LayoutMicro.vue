@@ -15,20 +15,23 @@
   </SystemLayout>
 </template>
 <script lang="jsx" setup>
+import { get } from '@vueuse/core';
 import * as lodash from 'lodash';
+import { storeToRefs } from 'pinia';
+import { initGlobalState, loadMicroApp } from 'qiankun';
+import { nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
-import { loadMicroApp, initGlobalState } from 'qiankun';
-import { nextTick, onMounted, onBeforeUnmount, watch, ref } from 'vue';
 // apis
 // hooks
 // utils
 // stores
-import { useStoreSystem } from '@src/stores';
+import { useStoreSystem, useStoreUserAuth } from '@src/stores';
 // configs
+import { ENV } from '@src/configs';
 // components
-import SystemMenus from '@src/layouts/system/components/SystemMenus.jsx';
-import SystemLayout from '@src/layouts/system/components/SystemLayout.vue';
 import SystemHeader from '@src/layouts/system/components/SystemHeader.vue';
+import SystemLayout from '@src/layouts/system/components/SystemLayout.vue';
+import SystemMenus from '@src/layouts/system/components/SystemMenus.jsx';
 // props
 // emits
 // refs
@@ -40,6 +43,8 @@ const actionRef = ref(null);
 // methods
 // watch
 const route = useRoute();
+const storeUserAuth = useStoreUserAuth();
+const { computedToken } = storeToRefs(storeUserAuth);
 const storeSystem = useStoreSystem();
 const { setCollapsed } = storeSystem;
 
@@ -68,7 +73,9 @@ const initMicroApp = () => {
         entry: '//localhost:9999',
         container: targetDom,
         activeRule: '/micro',
-        props: { microAppId: '' },
+        props: {
+          [ENV.TOKEN_KEY]: get(computedToken),
+        },
       });
       actionRef.value = initGlobalState({
         microAppId: '',
