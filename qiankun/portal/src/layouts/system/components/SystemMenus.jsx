@@ -23,11 +23,9 @@ export default defineComponent(
     const { setRouters, addRouterTab } = storeSystem;
     const { computedRouters } = storeToRefs(storeSystem);
 
-    const menus = get(computedRouters);
-
     const onClickMenu = ({ keyPath }) => {
       try {
-        const menu = findMenuItemByKeyPath(menus, keyPath);
+        const menu = findMenuItemByKeyPath(get(computedRouters), keyPath);
         if (menu) {
           const nextMenu = Object.assign({}, menu, { keyPath, path: `${keyPath.join('/')}` });
           addRouterTab(nextMenu);
@@ -70,7 +68,7 @@ export default defineComponent(
         theme={'dark'}
         onClick={onClickMenu}
       >
-        {menus.map(menu => (
+        {get(computedRouters).map(menu => (
           <Fragment key={menu.name}>
             {menu?.children?.length > 0 ? renderSubMenuGroup(menu) : renderMenuItem(menu)}
           </Fragment>
