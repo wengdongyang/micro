@@ -1,25 +1,15 @@
-import { createRouter, createWebHashHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
+import LayoutMicro from '../layouts/micro/LayoutMicro.vue';
 
-const routes = [
-  {
-    path: '/',
-    name: 'home',
-    component: HomeView
-  },
-  {
-    path: '/about',
-    name: 'about',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
-  }
-]
+const appId = process.env.VUE_APP_APP_ID;
+let routes = [];
+switch (appId) {
+  case 'KXCW_UAV':
+    routes = [{ path: '/', name: '', component: LayoutMicro }];
+    break;
 
-const router = createRouter({
-  history: createWebHashHistory(),
-  routes
-})
+  default:
+    routes = [];
+    break;
+}
 
-export default router
+export default routes;

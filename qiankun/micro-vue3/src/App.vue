@@ -1,30 +1,35 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </nav>
-  <router-view/>
+  <ConfigProvider
+    :getPopupContainer="getPopupContainer"
+    :locale="zhCN"
+  >
+    <RouterView />
+  </ConfigProvider>
 </template>
-
-<style lang="less">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-
-nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
+<script lang="jsx" setup>
+import { ConfigProvider } from 'ant-design-vue';
+import zhCN from 'ant-design-vue/es/locale/zh_CN';
+// apis
+// hooks
+// utils
+// stores
+// configs
+// components
+// props
+// emits
+// refs
+// computed
+// methods
+// watch
+const getPopupContainer = (node, dialogContext) => {
+  if (node) {
+    return node.parentNode;
   }
-}
-</style>
+  if (dialogContext) {
+    return dialogContext.getDialogWrap();
+  } else {
+    return document.body;
+  }
+};
+</script>
+<style lang="less" scoped></style>
