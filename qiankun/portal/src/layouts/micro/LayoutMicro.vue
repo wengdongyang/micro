@@ -67,14 +67,16 @@ const initMicroApp = () => {
   try {
     unmountMicroApp();
     const targetDom = contentRef.value;
+    const { path } = route;
     if (targetDom) {
       microAppRef.value = loadMicroApp({
         name: 'townOnline',
-        entry: '//localhost:9999',
+        entry: `http://localhost:9999${path}`,
         container: targetDom,
-        activeRule: '/micro',
+        activeRule: path,
         props: {
           [ENV.TOKEN_KEY]: get(computedToken),
+          base: path,
         },
       });
       actionRef.value = initGlobalState({
