@@ -47,14 +47,16 @@
   </a-layout>
 </template>
 <script lang="jsx" setup>
-import { get } from '@vueuse/core';
+import { tryOnMounted } from '@vueuse/core';
 import { storeToRefs } from 'pinia';
+import { useRouter } from 'vue-router';
 // apis
 // hooks
 // utils
 // stores
 import { useStoreSystem } from '@src/stores';
 // configs
+import { ENV } from '@src/configs';
 // components
 import ImageLogo from '../assets/images/logo.png';
 // props
@@ -63,29 +65,27 @@ import ImageLogo from '../assets/images/logo.png';
 // computed
 // methods
 // watch
+
+const router = useRouter();
+
 const storeSystem = useStoreSystem();
-const { setCollapsed, deleteRouterTab, changeRouterTab } = storeSystem;
-const { computedCollapsed, computedRouterTabs, computedActiveRouterTab } = storeToRefs(storeSystem);
 
-const onChangeTab = key => {
-  try {
-    const prevTabs = get(computedRouterTabs);
-    const selectTab = prevTabs.find(tab => tab.path === key);
-    selectTab && changeRouterTab(selectTab);
-  } catch (error) {
-    console.warn(error);
-  }
-};
+const { setCollapsed } = storeSystem;
+const { computedCollapsed } = storeToRefs(storeSystem);
 
-const onEditTab = (target, action) => {
+const checkIsLogin = () => {
   try {
-    if (action === 'remove') {
-      deleteRouterTab(target);
+    const token = sessionStorage.getItem(ENV.TOKEN_KEY);
+    if (!token) {
+      router.replace({ path: '/login' });
     }
   } catch (error) {
     console.warn(error);
   }
 };
+tryOnMounted(() => {
+  checkIsLogin();
+});
 </script>
 <style lang="less" module>
 @import './SystemLayout.module.less';

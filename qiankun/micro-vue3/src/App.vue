@@ -2,6 +2,8 @@
   <ConfigProvider
     :getPopupContainer="getPopupContainer"
     :locale="zhCN"
+    :input="{ autocomplete: 'off' }"
+    prefixCls="micro"
   >
     <RouterView />
   </ConfigProvider>
@@ -31,5 +33,8 @@ const getPopupContainer = (node, dialogContext) => {
     return document.body;
   }
 };
+ConfigProvider.config({
+  prefixCls: 'micro',
+});
 </script>
 <style lang="less" scoped></style>

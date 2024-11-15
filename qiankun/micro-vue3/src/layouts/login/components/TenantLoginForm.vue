@@ -121,7 +121,12 @@ const captchaImageRef = ref(null);
 
 const formState = ref(
   ENV.MODE === 'development'
-    ? { username: ENV.TENANT_USERNAME, password: ENV.TENANT_PASSWORD, code: '', uuid: '' }
+    ? {
+        username: process.env.VUE_APP_TENANT_USERNAME,
+        password: process.env.VUE_APP_TENANT_PASSWORD,
+        code: '',
+        uuid: '',
+      }
     : { username: '', password: '', code: '', uuid: '' },
 );
 const isRememberMe = ref(false);
@@ -145,7 +150,7 @@ const getUserInfoPermissionsRoles = async () => {
     const { code, msg } = res;
     if (code === 200) {
       storeUserAuth.setUserInfoRolesPermissionsRoles(res);
-      push({ name: 'system' });
+      push({ name: 'micro' });
     } else {
       message.error(msg);
     }

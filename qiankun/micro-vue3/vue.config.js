@@ -1,5 +1,6 @@
 const { resolve } = require('path');
 const { defineConfig } = require('@vue/cli-service');
+const { webpack: vueSetupExtend } = require('unplugin-vue-setup-extend-plus').default;
 
 const appId = process.env.VUE_APP_APP_ID;
 
@@ -29,6 +30,7 @@ module.exports = defineConfig({
       libraryTarget: 'umd',
       chunkLoadingGlobal: `webpackJsonp_${name}`,
     },
+    plugins: [vueSetupExtend({ enableAutoExpose: true })],
   },
   devServer: {
     hot: true,
@@ -37,6 +39,8 @@ module.exports = defineConfig({
     allowedHosts: 'all',
     headers: { 'Access-Control-Allow-Origin': '*' },
     client: { overlay: { warnings: false, errors: true } },
-    proxy: {},
+    proxy: {
+      '/town/adminapi': { target: `http://10.2.0.215:8060`, changeOrigin: true },
+    },
   },
 });

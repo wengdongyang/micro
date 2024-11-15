@@ -152,9 +152,7 @@ export const useStoreSystem = defineStore(
   'storeSystem',
   () => {
     const COLLAPSED = ref(false);
-
     const computedCollapsed = computed(() => get(COLLAPSED));
-
     const setCollapsed = collapsed => {
       try {
         set(COLLAPSED, collapsed);
@@ -163,10 +161,20 @@ export const useStoreSystem = defineStore(
       }
     };
 
+    const computedIsQiankun = computed(() => {
+      try {
+        return Boolean(window.__POWERED_BY_QIANKUN__);
+      } catch (error) {
+        return false;
+      }
+    });
+
     return {
       COLLAPSED,
       computedCollapsed,
       setCollapsed,
+
+      computedIsQiankun,
     };
   },
   { persist: { storage: sessionStorage } },
