@@ -16,19 +16,20 @@ import classNames from 'classnames';
 // methods
 // watch
 export default defineComponent(
-  props => {
+  (props, { emit, slots }) => {
     const targetDomRef = ref();
     const innerValues = computed({
       get: oldValue => {
         return props.values;
       },
       set: value => {
-        emits('update:values', value);
+        emit('update:values', value);
       },
     });
     return () => {
       return (
         <ConfigProvider
+          input={{ autocomplete: 'off' }}
           getPopupContainer={node => {
             if (targetDomRef.value) {
               return targetDomRef.value;
@@ -121,6 +122,8 @@ export default defineComponent(
                               filterOption={props.filterOption}
                             />
                           );
+                        case FORM_ITEM_TYPE.CUSTOM:
+                          return <Fragment>{slots.renderForm && slots.renderForm({ rule, values: innerValues.value })}</Fragment>;
                         default:
                           return (
                             <Input
