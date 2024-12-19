@@ -1,18 +1,20 @@
 <template>
-  <section></section>
+  <section>UavCommunityConfiguration</section>
 </template>
-<script lang="jsx" setup>
-import { set, get, tryOnMounted } from '@vueuse/core';
+<script lang="jsx" name="UavCommunityConfiguration" setup>
+import { get, set, tryOnMounted } from '@vueuse/core';
 import { useRequest } from 'ahooks-vue';
 import { message } from 'ant-design-vue';
 import * as lodash from 'lodash';
-import { ref, computed, watch } from 'vue';
+import { NEllipsis } from 'naive-ui';
+import { computed, ref, watch } from 'vue';
 // apis
 // hooks
 // utils
 // stores
 // configs
 // components
+
 // props
 // emits
 // refs
@@ -27,7 +29,8 @@ const { loading, run } = useRequest(() => {}, {
     }
   },
 });
-
 tryOnMounted(() => {});
 </script>
-<style lang="less" scoped></style>
+<style lang="less" scoped>
+@import './index.less';
+</style>

@@ -1,11 +1,12 @@
 <template>
-  <section></section>
+  <PageLayout>uavStatisticalAnalysis</PageLayout>
 </template>
-<script lang="jsx" setup>
+<script lang="jsx" setup name="uavStatisticalAnalysis">
 import { set, get, tryOnMounted } from '@vueuse/core';
 import { useRequest } from 'ahooks-vue';
 import { message } from 'ant-design-vue';
 import * as lodash from 'lodash';
+import { NEllipsis } from 'naive-ui';
 import { ref, computed, watch } from 'vue';
 // apis
 // hooks
@@ -13,6 +14,7 @@ import { ref, computed, watch } from 'vue';
 // stores
 // configs
 // components
+import { PageLayout } from '@src/components';
 // props
 // emits
 // refs
