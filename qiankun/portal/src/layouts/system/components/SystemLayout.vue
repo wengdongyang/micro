@@ -1,30 +1,15 @@
 <template>
-  <a-layout
-    :class="$style['system-layout']"
-    hasSider
-  >
+  <a-layout :class="$style['system-layout']" hasSider>
     <a-layout-sider
       :class="$style['system-layout-aside']"
       :collapsed="computedCollapsed"
-      @update:collapsed="
-        collapsed => {
-          setCollapsed(collapsed);
-        }
-      "
+      @update:collapsed="setCollapsed"
       collapsible
     >
       <section :class="$style['aside-layout']">
         <header :class="$style['aside-header']">
-          <img
-            :class="$style['logo']"
-            :src="ImageLogo"
-          />
-          <p
-            :class="$style['title']"
-            v-show="!computedCollapsed"
-          >
-            小镇在线管理系统
-          </p>
+          <img :class="$style['logo']" :src="ImageLogo" />
+          <p :class="$style['title']" v-show="!computedCollapsed">小镇在线管理系统</p>
         </header>
         <section :class="$style['aside-content']">
           <slot name="menus" />
@@ -45,17 +30,9 @@
               type="editable-card"
               hide-add
             >
-              <a-tab-pane
-                v-for="tab in computedRouterTabs"
-                :key="tab.path"
-                :closable="tab.closable"
-              >
+              <a-tab-pane v-for="tab in computedRouterTabs" :key="tab.path" :closable="tab.closable">
                 <template #tab>
-                  <i
-                    v-if="tab.icon"
-                    class="fa"
-                    :class="tab.icon"
-                  />
+                  <i v-if="tab.icon" class="fa" :class="tab.icon" />
                   {{ tab.title }}
                 </template>
               </a-tab-pane>
@@ -86,6 +63,7 @@ import ImageLogo from '../assets/images/logo.png';
 // computed
 // methods
 // watch
+
 const storeSystem = useStoreSystem();
 const { setCollapsed, deleteRouterTab, changeRouterTab } = storeSystem;
 const { computedCollapsed, computedRouterTabs, computedActiveRouterTab } = storeToRefs(storeSystem);
@@ -99,7 +77,6 @@ const onChangeTab = key => {
     console.warn(error);
   }
 };
-
 const onEditTab = (target, action) => {
   try {
     if (action === 'remove') {

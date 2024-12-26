@@ -31,3 +31,8 @@ export const apiGetGetInfo = () => {
 export const apiGetGetRouters = () => {
   return requestGet({ url: '/getRouters' });
 };
+
+// 获取路由
+export const apiGetDemoRouters = () => {
+  return requestGet({ url: '/demo/routers' });
+};

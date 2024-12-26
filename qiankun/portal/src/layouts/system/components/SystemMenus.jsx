@@ -1,15 +1,16 @@
 import { get } from '@vueuse/core';
+import { message } from 'ant-design-vue';
 import classNames from 'classnames';
 import { storeToRefs } from 'pinia';
 import { defineComponent, Fragment, nextTick, onMounted } from 'vue';
 // apis
+import { apiGetGetRouters } from '@src/apis';
 // hooks
 // utils
 import { findMenuItemByKeyPath } from '../utils';
 // stores
 import { useStoreSystem } from '@src/stores';
 // configs
-import { locationRouters } from '../configs';
 // components
 // props
 // emits
@@ -22,6 +23,19 @@ export default defineComponent(
     const storeSystem = useStoreSystem();
     const { setRouters, addRouterTab } = storeSystem;
     const { computedRouters } = storeToRefs(storeSystem);
+
+    const getRouters = async () => {
+      try {
+        const { code, data, msg } = await apiGetGetRouters();
+        if (code === 200) {
+          setRouters(data);
+        } else {
+          message.error(msg);
+        }
+      } catch (error) {
+        console.warn(error);
+      }
+    };
 
     const onClickMenu = ({ keyPath }) => {
       try {
@@ -37,18 +51,21 @@ export default defineComponent(
 
     onMounted(async () => {
       await nextTick();
-      await setRouters(locationRouters);
+      await getRouters();
     });
 
     const renderMenuItem = menu => (
       <a-menu-item key={menu.name}>
-        {{ icon: () => (menu.icon ? <i class={classNames('fa', menu.icon)} /> : null), default: () => menu.title }}
+        {{
+          icon: () => (menu.iconName ? <i class={classNames('fa', menu.iconName)} /> : null),
+          default: () => menu.title,
+        }}
       </a-menu-item>
     );
     const renderSubMenuGroup = subMenu => (
       <a-sub-menu key={subMenu.name}>
         {{
-          icon: () => (subMenu.icon ? <i class={classNames('fa', subMenu.icon)} /> : null),
+          icon: () => (subMenu.iconName ? <i class={classNames('fa', subMenu.iconName)} /> : null),
           title: () => subMenu.title,
           default: () => (
             <Fragment>
@@ -63,11 +80,7 @@ export default defineComponent(
       </a-sub-menu>
     );
     return () => (
-      <a-menu
-        mode={'inline'}
-        theme={'dark'}
-        onClick={onClickMenu}
-      >
+      <a-menu mode={'inline'} theme={'dark'} onClick={onClickMenu}>
         {get(computedRouters).map(menu => (
           <Fragment key={menu.name}>
             {menu?.children?.length > 0 ? renderSubMenuGroup(menu) : renderMenuItem(menu)}

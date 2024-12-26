@@ -1,21 +1,11 @@
 <template>
   <PageLayout>
     <a-card title="已购特色应用">
-      <a-list
-        :loading="loading"
-        :dataSource="applicationList"
-        :grid="{ gutter: 16 }"
-      >
+      <a-list :loading="loading" :dataSource="applicationList" :grid="{ gutter: 16 }">
         <template #renderItem="{ item }">
           <a-list-item>
-            <section
-              class="application-item"
-              @click="onClickApplication(item)"
-            >
-              <img
-                class="application-logo"
-                :src="item.applicationLogo"
-              />
+            <section class="application-item" @click="onClickApplication(item)">
+              <img class="application-logo" :src="item.applicationLogo" />
               <NEllipsis class="application-content">
                 {{ item.applicationNickname }}
               </NEllipsis>

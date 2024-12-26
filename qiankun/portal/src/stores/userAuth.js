@@ -123,10 +123,11 @@ export const useStoreUserAuth = defineStore(
       }
     };
 
-    const setUserInfoRolesPermissionsRoles = ({ roles, userinfo, permissions }) => {
+    const setUserInfoRolesPermissionsRoles = userInfoRolesPermissionsRoles => {
       try {
+        const { roles, permissions, user, regionNo } = userInfoRolesPermissionsRoles;
         set(ROLES, lodash.cloneDeep(roles));
-        set(USERINFO, lodash.cloneDeep(userinfo));
+        set(USERINFO, lodash.cloneDeep(Object.assign({}, user, { regionNo })));
         set(PERMISSIONS, lodash.cloneDeep(permissions));
       } catch (error) {
         console.warn(error);
@@ -199,7 +200,9 @@ export const useStoreSystem = defineStore(
         const index = prevRouterTabs.findIndex(routerTab => routerTab.path === tab.path);
         const currentTab = Object.assign({}, tab, { closable: true, timeStamp: dayjs().format(FORMAT) });
         if (index > -1) {
-          const nextRouterTabs = prevRouterTabs.map(routerTab => (routerTab.path === tab.path ? currentTab : routerTab));
+          const nextRouterTabs = prevRouterTabs.map(routerTab =>
+            routerTab.path === tab.path ? currentTab : routerTab,
+          );
           set(ROUTER_TABS, nextRouterTabs);
         } else {
           const nextRouterTabs = prevRouterTabs.concat([currentTab]);
@@ -221,7 +224,9 @@ export const useStoreSystem = defineStore(
         set(ROUTER_TABS, nextRouterTabs);
 
         if (prevActiveRouterTab.path === key) {
-          const routerTabsByTimeStamp = lodash.cloneDeep(nextRouterTabs).sort((prev, next) => (dayjs(prev.timeStamp).isBefore(dayjs(next.timeStamp)) ? 1 : -1));
+          const routerTabsByTimeStamp = lodash
+            .cloneDeep(nextRouterTabs)
+            .sort((prev, next) => (dayjs(prev.timeStamp).isBefore(dayjs(next.timeStamp)) ? 1 : -1));
           const currentTab = routerTabsByTimeStamp[0];
           currentTab && set(ACTIVE_ROUTER_TAB, currentTab);
         }
@@ -236,7 +241,9 @@ export const useStoreSystem = defineStore(
         const index = prevRouterTabs.findIndex(routerTab => routerTab.path === tab.path);
         const currentTab = Object.assign({}, tab, { timeStamp: dayjs().format(FORMAT) });
         if (index > -1) {
-          const nextRouterTabs = prevRouterTabs.map(routerTab => (routerTab.path === tab.path ? currentTab : routerTab));
+          const nextRouterTabs = prevRouterTabs.map(routerTab =>
+            routerTab.path === tab.path ? currentTab : routerTab,
+          );
           set(ROUTER_TABS, nextRouterTabs);
         }
         set(ACTIVE_ROUTER_TAB, currentTab);

@@ -4,11 +4,14 @@ import { defineConfig } from 'vite';
 import UnoCSS from 'unocss/vite';
 import vue from '@vitejs/plugin-vue';
 import vueJsx from '@vitejs/plugin-vue-jsx';
-// import { viteMockServe } from 'vite-plugin-mock';
+import mockDevServerPlugin from 'vite-plugin-mock-dev-server';
 import vueDevTools from 'vite-plugin-vue-devtools';
 import { createHtmlPlugin } from 'vite-plugin-html';
 import vueSetupExtend from 'unplugin-vue-setup-extend-plus/vite';
 
+// const target = 'http://10.2.0.215:8060';
+const target = 'http://wj.ikeqiao.net';
+// const target = 'https://town.ikeqiao.net';
 export default defineConfig(({ mode }) => {
   return {
     plugins: [
@@ -17,6 +20,7 @@ export default defineConfig(({ mode }) => {
       UnoCSS(),
       vueDevTools(),
       vueSetupExtend({ enableAutoExpose: true }), // setup上主动命名
+      mockDevServerPlugin({ mockPath: '/src/mocks', enable: true }),
       // html模板
       createHtmlPlugin({
         minify: true,
@@ -50,7 +54,8 @@ export default defineConfig(({ mode }) => {
       host: true,
       open: true,
       proxy: {
-        '/town/adminapi': { target: `http://10.2.0.215:8060`, changeOrigin: true },
+        '/town/adminapi/getRouters': 'http://example.com/',
+        '/town/adminapi': { target, changeOrigin: true },
       },
     },
   };
