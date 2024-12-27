@@ -1,23 +1,11 @@
 <template>
-  <NForm
-    class="form"
-    :ref="ref => (formRef = ref)"
-    :model="formState"
-    size="large"
-    label-placement="left"
-  >
+  <NForm class="form" :ref="ref => (formRef = ref)" :model="formState" size="large" label-placement="left">
     <NFormItem
       class="form-item"
       path="username"
       :rule="{ required: true, message: '请输入系统用户账号', trigger: ['input', 'blur'] }"
     >
-      <NInput
-        class="input"
-        v-model:value="formState.username"
-        type="text"
-        placeholder="系统用户账号"
-        clearable
-      >
+      <NInput class="input" v-model:value="formState.username" type="text" placeholder="系统用户账号" clearable>
         <template #prefix>
           <i class="fa fa-user" />
         </template>
@@ -48,12 +36,7 @@
     >
       <NGrid>
         <NGridItem :span="18">
-          <NInput
-            class="input-code"
-            v-model:value="formState.code"
-            placeholder="验证码"
-            clearable
-          >
+          <NInput class="input-code" v-model:value="formState.code" placeholder="验证码" clearable>
             <template #prefix>
               <i class="fa fa-check-circle" />
             </template>
@@ -70,22 +53,10 @@
       </NGrid>
     </NFormItem>
     <NFormItem class="form-item">
-      <NCheckbox
-        class="remember-me"
-        v-model:checked="isRememberMe"
-      >
-        记住密码
-      </NCheckbox>
+      <NCheckbox class="remember-me" v-model:checked="isRememberMe"> 记住密码 </NCheckbox>
     </NFormItem>
     <NFormItem class="form-item">
-      <NButton
-        class="login-btn"
-        type="info"
-        @click="onClickLogin"
-        block
-      >
-        登 录
-      </NButton>
+      <NButton class="login-btn" type="info" @click="onClickLogin" block> 登 录 </NButton>
     </NFormItem>
   </NForm>
 </template>
@@ -100,6 +71,7 @@ import { NForm, NFormItem, NGrid, NGridItem, NInput, NCheckbox, NButton } from '
 import { apiGetGetInfo } from '@src/apis';
 // hooks
 // utils
+import { encrypt } from '../utils';
 // stores
 import { useStoreLoginFormState, useStoreUserAuth } from '@src/stores';
 // configs
@@ -167,8 +139,12 @@ const onClickLogin = async () => {
     const isValidate = await formRef.value.validate();
     if (isValidate) {
       const values = get(formState);
-      const res = await apiPostLoginTenant(values);
       const innerIsRememberMe = get(isRememberMe);
+
+      const { password } = values;
+      const nextPassword = encrypt(password); // 对数据进行加密
+
+      const res = await apiPostLoginTenant(Object.assign({}, values, { password: nextPassword }));
 
       const { code, msg } = res;
       if (code === 200) {

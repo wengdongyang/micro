@@ -14,6 +14,7 @@ import vueSetupExtend from 'unplugin-vue-setup-extend-plus/vite';
 const target = 'http://wj.ikeqiao.net';
 // const target = 'https://town.ikeqiao.net';
 // https://vite.dev/config/
+
 export default defineConfig(({ mode }) => {
   return {
     plugins: [
@@ -22,18 +23,13 @@ export default defineConfig(({ mode }) => {
       UnoCSS(),
       vueDevTools(),
       vueSetupExtend({ enableAutoExpose: true }), // setup上主动命名
-      mockDevServerPlugin({ mockPath: '/src/mocks', enable: true }),
-      // html模板
+      mockDevServerPlugin(),
       createHtmlPlugin({
         minify: true,
         entry: '/src/main.js',
         template: '/public/index.html',
         inject: {
-          data: {
-            title: '小镇在线管理系统',
-            injectCss: [],
-            injectScript: [],
-          },
+          data: { title: '小镇在线管理系统', injectCss: [], injectScript: [] },
           tags: [{ injectTo: 'body-prepend', tag: 'section', attrs: { id: 'app' } }],
         },
       }),

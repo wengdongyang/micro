@@ -72,6 +72,7 @@ import { useRouter } from 'vue-router';
 import { apiGetGetInfo, apiPostLoginPlatform } from '@src/apis';
 // hooks
 // utils
+import { encrypt } from '../utils';
 // stores
 import { useStoreLoginFormState, useStoreUserAuth } from '@src/stores';
 // configs
@@ -90,6 +91,7 @@ const captchaImageRef = ref(null);
 // computed
 // methods
 // watch
+
 const formState = ref(
   ENV.MODE === 'development'
     ? { username: ENV.ADMIN_USERNAME, password: ENV.ADMIN_PASSWORD, code: '', uuid: '' }
@@ -103,7 +105,7 @@ const initFormState = () => {
     const storeLoginFormState = get(computedAdminLoginFormState);
     if (storeIsRememberMe) {
       set(isRememberMe, storeIsRememberMe);
-      set(formState, Object.assign(storeLoginFormState, { code: '', uuid: '' }));
+      set(formState, Object.assign({}, storeLoginFormState, { code: '', uuid: '' }));
     }
   } catch (error) {
     console.warn(error);
@@ -139,8 +141,12 @@ const onClickLogin = async () => {
 
     if (isValidate) {
       const values = get(formState);
-      const res = await apiPostLoginPlatform(values);
       const innerIsRememberMe = get(isRememberMe);
+
+      const { password } = values;
+      const nextPassword = encrypt(password); // 对数据进行加密
+
+      const res = await apiPostLoginPlatform(Object.assign({}, values, { password: nextPassword }));
       const { code, msg } = res;
       if (code === 200) {
         storeUserAuth.setLoginToken(res);
