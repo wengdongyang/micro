@@ -187,6 +187,7 @@ export const useStoreSystem = defineStore(
 
     const setRouters = routers => {
       try {
+        console.warn('setRouters', routers);
         set(ROUTERS, routers);
       } catch (error) {
         console.warn(error);

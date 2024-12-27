@@ -1,5 +1,10 @@
 <template>
-  <ConfigProvider :getPopupContainer="getPopupContainer" :locale="zhCN" prefixCls="wdy">
+  <ConfigProvider
+    :getPopupContainer="getPopupContainer"
+    :locale="zhCN"
+    :input="{ autocomplete: 'off' }"
+    prefixCls="wdy"
+  >
     <RouterView />
   </ConfigProvider>
 </template>

@@ -3,44 +3,58 @@
     <a-row :gutter="24">
       <a-col :span="12">
         <a-card title="菜单">
+          <template #extra>
+            <a-button
+              type="link"
+              @click="
+                () => {
+                  setVisibleModal(true);
+                  setModalType(MODAL_TYPE.ADD);
+                  activeMenu = {};
+                }
+              "
+            >
+              新增菜单文件夹
+            </a-button>
+          </template>
           <section class="menu-container">
             <Draggable
-              :modelValue="computedRouters"
-              itemKey="name"
+              v-if="systemMenus.length > 0"
+              :modelValue="systemMenus"
+              itemKey="id"
               :group="{ name: 'page' }"
               :componentData="{ class: 'menu' }"
               @change="event => onChangePage(event)"
             >
-              <template #item="{ element: menu }">
-                <section class="sub-menu-group" v-if="menu.type === MENU_TYPE.FOLDER">
-                  <header class="sub-menu-title">
-                    <i class="sub-menu-icon fa" v-if="menu.iconName" :class="menu.iconName" />
-                    {{ menu.title }}
-                  </header>
-                  <Draggable
-                    :modelValue="menu.children"
-                    itemKey="name"
-                    :group="{ name: 'page' }"
-                    tag="section"
-                    :componentData="{ class: 'sub-menu-list' }"
-                    @change="event => onChangeSubPage(event, menu)"
-                  >
-                    <template #item="{ element: subMenu }">
-                      <section class="sub-menu-item" v-if="subMenu.type === MENU_TYPE.PAGE">
-                        <section class="sub-menu-item-title">
-                          <i class="sub-menu-item-icon fa" v-if="subMenu.iconName" :class="subMenu.iconName" />
-                          {{ subMenu.title }}
-                        </section>
-                      </section>
-                    </template>
-                  </Draggable>
-                </section>
-                <section class="menu-item" v-else-if="menu.type === MENU_TYPE.PAGE">
-                  <section class="menu-item-title">
-                    <i class="menu-item-icon fa" v-if="menu.iconName" :class="menu.iconName" />
-                    {{ menu.title }}
-                  </section>
-                </section>
+              <template #item="{ element }">
+                <RenderSubMenuGroup
+                  v-if="element.type === MENU_TYPE.FOLDER"
+                  :subMenuGroup="element"
+                  :activeMenu="activeMenu"
+                  @changeSubPage="onChangeSubPage"
+                  @clickPage="page => (activeMenu = page)"
+                  @editPage="
+                    page => {
+                      activeMenu = page;
+                      setVisibleModal(true);
+                      setModalType(MODAL_TYPE.EDIT);
+                    }
+                  "
+                  @clickSubPage="subPage => (activeMenu = subPage)"
+                />
+                <RenderMenu
+                  :menu="element"
+                  :activeMenu="activeMenu"
+                  @clickPage="page => (activeMenu = page)"
+                  @editPage="
+                    page => {
+                      activeMenu = page;
+                      setVisibleModal(true);
+                      setModalType(MODAL_TYPE.EDIT);
+                    }
+                  "
+                  v-else-if="element.type === MENU_TYPE.PAGE"
+                />
               </template>
             </Draggable>
           </section>
@@ -68,25 +82,43 @@
       </a-col>
     </a-row>
   </PageLayout>
+  <a-modal
+    :open="visibleModal"
+    :title="modalType === MODAL_TYPE.ADD ? '新增' : '编辑'"
+    :footer="null"
+    :maskClosable="false"
+    @cancel="() => setVisibleModal(false)"
+  >
+    <EditMenu
+      v-if="visibleModal"
+      :modalType="modalType"
+      :activeMenu="activeMenu"
+      @cancel="() => setVisibleModal(false)"
+    />
+  </a-modal>
 </template>
 <script lang="jsx" name="Menu" setup>
-import { get, tryOnMounted } from '@vueuse/core';
+import { tryOnMounted } from '@vueuse/core';
 import { message } from 'ant-design-vue';
 import * as lodash from 'lodash';
-import { storeToRefs } from 'pinia';
-import { ref } from 'vue';
+import { ref, unref } from 'vue';
 import Draggable from 'vuedraggable';
 // apis
+import { apiGetGetRouters } from '@src/apis';
 // hooks
+import { useModalType, useModalVisible } from '@src/hooks';
 // utils
+import { handleMenuDragEventWaters } from './utils';
 // stores
 import { useStoreSystem } from '@src/stores';
 // configs
-import { MENU_TYPE } from '@src/configs';
+import { MENU_TYPE, MODAL_TYPE } from '@src/configs';
 import { systemPages } from '@src/pages/index';
 // components
 import { PageLayout } from '@src/components';
-
+import RenderMenu from './components/RenderMenu.vue';
+import RenderSubMenuGroup from './components/RenderSubMenuGroup.vue';
+import EditMenu from './components/EditMenu.vue';
 // props
 // emits
 // refs
@@ -95,71 +127,115 @@ import { PageLayout } from '@src/components';
 // watch
 const storeSystem = useStoreSystem();
 const { setRouters } = storeSystem;
-const { computedRouters } = storeToRefs(storeSystem);
 
-const pages = ref(systemPages);
+const handleMenuDragEventWatersRef = ref(null); // 挂载事件
 
-const onChangePage = info => {
+const [modalType, setModalType] = useModalType();
+const [visibleModal, setVisibleModal] = useModalVisible();
+
+const systemMenus = ref([]); // 系统菜单
+const activeMenu = ref({});
+
+const getRouters = async () => {
   try {
-    console.error('onChangePage', info);
-  } catch (error) {
-    console.warn(error);
-  }
-};
-const onChangeSubPage = (event, menu) => {
-  try {
-    console.error(event);
-    const prevRouters = get(computedRouters);
-    // 内部移动
-    if (lodash.hasIn(event, 'moved')) {
-      const { element, newIndex, oldIndex } = event.moved;
-      const nextRouters = prevRouters.map(prevRouter => {
-        if (prevRouter.name === menu.name) {
-          const children = lodash.cloneDeep(prevRouter.children);
-          const nextChildren = children.filter((child, idx) => idx !== oldIndex);
-          nextChildren.splice(newIndex, 0, element);
-          return Object.assign({}, prevRouter, { children: nextChildren });
-        } else {
-          return prevRouter;
-        }
-      });
-      setRouters(nextRouters);
-    } else if (lodash.hasIn(event, 'added')) {
-      const { element, newIndex } = event.added;
-      if (element.type === MENU_TYPE.FOLDER) {
-        message.error('文件夹禁止拖入！');
-        return;
-      } else if (element.type === MENU_TYPE.PAGE) {
-        const nextRouters = prevRouters.map(prevRouter => {
-          if (prevRouter.name === menu.name) {
-            const children = lodash.cloneDeep(prevRouter.children);
-            const nextChildren = children;
-            nextChildren.splice(newIndex, 0, Object.assign({}, element, { type: MENU_TYPE.PAGE }));
-            return Object.assign({}, prevRouter, { children: nextChildren });
-          } else {
-            return prevRouter;
-          }
-        });
-        setRouters(nextRouters);
-      } else if (element.type === MENU_TYPE.SOURCE) {
-        const nextRouters = prevRouters.map(prevRouter => {
-          if (prevRouter.name === menu.name) {
-            const children = lodash.cloneDeep(prevRouter.children);
-            const nextChildren = children;
-            nextChildren.splice(newIndex, 0, Object.assign({}, element, { type: MENU_TYPE.PAGE }));
-            return Object.assign({}, prevRouter, { children: nextChildren });
-          } else {
-            return prevRouter;
-          }
-        });
-        setRouters(nextRouters);
+    const handleMenuDragEventWaters = handleMenuDragEventWatersRef.value;
+    if (handleMenuDragEventWaters) {
+      const { code, data, msg } = await apiGetGetRouters();
+      if (code === 200) {
+        systemMenus.value = data;
+        handleMenuDragEventWaters.setSystemMenus(data);
+      } else {
+        message.error(msg);
       }
     }
   } catch (error) {
     console.warn(error);
   }
 };
-tryOnMounted(() => {});
+
+const inithandleMenuDragEventWaters = () => {
+  try {
+    handleMenuDragEventWatersRef.value = new handleMenuDragEventWaters({
+      onHandleEventFlowCompleted: nextSystemMenus => {
+        systemMenus.value = nextSystemMenus;
+        setRouters(nextSystemMenus);
+      },
+    });
+  } catch (error) {
+    console.warn(error);
+  }
+};
+
+const onChangePage = event => {
+  try {
+    const handleMenuDragEventWaters = handleMenuDragEventWatersRef.value;
+
+    if (handleMenuDragEventWaters) {
+      if (lodash.hasIn(event, 'moved')) {
+        // 内部移动
+        const details = lodash.cloneDeep(unref(event.moved));
+        handleMenuDragEventWaters.addEventMainMenuWater('menuInnerMove', details);
+      } else if (lodash.hasIn(event, 'added')) {
+        const { element } = event.added;
+        const details = lodash.cloneDeep(unref(event.added));
+        if (element.type === MENU_TYPE.PAGE) {
+          // 内部互相拖动
+          handleMenuDragEventWaters.addEventMainMenuWater('menuInnerAdd', details);
+        } else if (element.type === MENU_TYPE.SOURCE) {
+          // 从外部新增一个菜单
+          handleMenuDragEventWaters.addEventMainMenuWater('menuOutAdd', details);
+        }
+      } else if (lodash.hasIn(event, 'removed')) {
+        const details = lodash.cloneDeep(unref(event.removed));
+        const { element } = event.removed;
+        if (element.type === MENU_TYPE.FOLDER) {
+          message.error('文件夹禁止该操作！');
+          return;
+        } else {
+          handleMenuDragEventWaters.addEventMainMenuWater('menuInnerRemove', details);
+        }
+      }
+    }
+  } catch (error) {
+    console.warn(error);
+  }
+};
+
+const onChangeSubPage = (event, menu) => {
+  try {
+    const handleMenuDragEventWaters = handleMenuDragEventWatersRef.value;
+
+    if (handleMenuDragEventWaters) {
+      if (lodash.hasIn(event, 'moved')) {
+        // 内部移动
+        const details = lodash.cloneDeep(unref(event.moved));
+        handleMenuDragEventWaters.addEventSubMenuWater('subMenuInnerMove', Object.assign({}, details, { menu }));
+      } else if (lodash.hasIn(event, 'added')) {
+        const { element } = event.added;
+        const details = lodash.cloneDeep(unref(event.added));
+        if (element.type === MENU_TYPE.FOLDER) {
+          message.error('文件夹禁止拖入！');
+          return;
+        } else if (element.type === MENU_TYPE.PAGE) {
+          // 内部互相拖动
+          handleMenuDragEventWaters.addEventSubMenuWater('subMenuInnerAdd', Object.assign({}, details, { menu }));
+        } else if (element.type === MENU_TYPE.SOURCE) {
+          // 从外部新增一个菜单
+          handleMenuDragEventWaters.addEventSubMenuWater('subMenuOutAdd', Object.assign({}, details, { menu }));
+        }
+      } else if (lodash.hasIn(event, 'removed')) {
+        const details = lodash.cloneDeep(unref(event.removed));
+        handleMenuDragEventWaters.addEventSubMenuWater('subMenuInnerRemove', Object.assign({}, details, { menu }));
+      }
+    }
+  } catch (error) {
+    console.warn(error);
+  }
+};
+tryOnMounted(async () => {
+  await inithandleMenuDragEventWaters();
+  await getRouters();
+});
 </script>
 <style lang="less" scoped>
 @import './index.less';

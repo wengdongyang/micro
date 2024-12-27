@@ -47,7 +47,7 @@ const storeUserAuth = useStoreUserAuth();
 const { computedUserinfo } = storeToRefs(storeUserAuth);
 
 const matchedList = computed(() => route.matched);
-console.error(route);
+console.warn(route);
 </script>
 <style lang="less" module>
 @import './SystemHeader.module.less';

@@ -40,7 +40,7 @@ const applicationList = ref([]);
 // watch
 
 const storeSystem = useStoreSystem();
-const { setRouters, addRouterTab } = storeSystem;
+const { addRouterTab } = storeSystem;
 
 const { loading, run: getApplicationList } = useRequest(apiGetApplicationOwnerSearch, {
   manual: true,

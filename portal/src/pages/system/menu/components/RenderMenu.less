@@ -1,0 +1,20 @@
+@import '../index.less';
+
+.menu-item {
+  .menu-item-title {
+    .mixin-flex-start;
+    .mixin-main-menu-title;
+    .menu-item-type-icon {
+      .mixin-menu-type-icon;
+    }
+    .menu-item-icon {
+      .mixin-menu-icon;
+    }
+    .menu-item-title-content {
+      .mixin-main-menu-title-content;
+    }
+  }
+  &.active {
+    .mixin-menu-active;
+  }
+}

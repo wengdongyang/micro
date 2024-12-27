@@ -3,10 +3,8 @@
   align-items: center;
   justify-content: flex-start;
 }
-
+// 主菜单（含有菜单组的title）
 .mixin-main-menu-title {
-  line-height: 40px;
-
   height: 40px;
   padding: 0 10px;
 
@@ -15,13 +13,29 @@
   border-bottom: 1px solid #ddd;
 }
 
+.mixin-main-menu-title-content {
+  line-height: 40px;
+  font-size: 16px;
+  flex: 1;
+
+  .text-overflow;
+}
+.mixin-menu-type-icon {
+  margin-right: 10px;
+
+  color: red;
+}
 .mixin-menu-icon {
   margin-right: 10px;
 }
-
+.mixin-menu-active {
+  background-color: fade(#eee, 100);
+}
+.mixin-menu-half-active {
+  background-color: fade(#eee, 50);
+}
+// 子菜单
 .mixin-sub-menu-title {
-  line-height: 32px;
-
   height: 32px;
   padding: 0 10px;
 
@@ -30,50 +44,19 @@
   border-bottom: 1px solid #ddd;
 }
 
+.mixin-sub-menu-title-content {
+  line-height: 32px;
+  font-size: 14px;
+  flex: 1;
+
+  .text-overflow;
+}
+.mixin-sub-menu-active {
+  background-color: fade(#eee, 100);
+}
+
 .menu-container {
   overflow-y: auto;
 
   height: calc(100vh - 64px - 40px - 140px);
-}
-.menu {
-  .menu-item {
-    .menu-item-title {
-      .mixin-flex-start;
-      .mixin-main-menu-title;
-      .menu-item-icon {
-        .mixin-menu-icon;
-      }
-    }
-  }
-  .sub-menu-group {
-    .sub-menu-title {
-      .mixin-flex-start;
-      .mixin-main-menu-title;
-      .sub-menu-icon {
-        .mixin-menu-icon;
-      }
-    }
-    .sub-menu-list {
-      padding: 0 0 0 20px;
-      .sub-menu-item {
-        .sub-menu-item-title {
-          .mixin-flex-start;
-          .mixin-sub-menu-title;
-          .sub-menu-item-icon {
-            .mixin-menu-icon;
-          }
-        }
-      }
-    }
-  }
-}
-
-.source-menu-list {
-  .source-menu-item {
-    .mixin-flex-start;
-    .mixin-main-menu-title;
-    .source-menu-item-icon {
-      .mixin-menu-icon;
-    }
-  }
 }

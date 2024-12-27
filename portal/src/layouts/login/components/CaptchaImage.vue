@@ -1,13 +1,10 @@
 <template>
-  <img
-    :class="$style['captcha-image']"
-    :src="captchaImage"
-    @click="getCaptchaImage"
-  />
+  <img :class="$style['captcha-image']" :src="captchaImage" @click="getCaptchaImage" />
 </template>
 <script lang="jsx" setup>
 import { ref, computed } from 'vue';
 import { message } from 'ant-design-vue';
+import * as lodash from 'lodash';
 import { get, set, tryOnMounted } from '@vueuse/core';
 // apis
 import { apiGetCaptchaImage } from '@src/apis';
@@ -27,11 +24,12 @@ const captchaUrl = ref();
 
 const captchaImage = computed(() => {
   try {
+    const regExp = new RegExp(/^(((ht|f)tps?):\/\/)?([^!@#$%^&*?.\s-]([^!@#$%^&*?.\s]{0,63}[^!@#$%^&*?.\s])?\.)+[a-z]{2,6}\/?/);
     const url = get(captchaUrl);
-    if (url) {
-      return `data:image/gif;base64,${url}`;
+    if (regExp.test(url)) {
+      return url;
     }
-    return '';
+    return `data:image/gif;base64,${url}`;
   } catch (error) {
     console.warn(error);
     return '';
@@ -62,6 +60,7 @@ defineExpose({
 </script>
 <style lang="less" module>
 .captcha-image {
+  width: 100%;
   object-fit: cover;
 }
 </style>

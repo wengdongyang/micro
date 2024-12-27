@@ -52,8 +52,8 @@ export default defineConfig(({ mode }) => {
       host: true,
       open: true,
       proxy: {
-        '/town/adminapi/getRouters': 'http://example.com/',
-        '/town/adminapi': { target, changeOrigin: true },
+        '/town/adminapi': 'http://example.com/',
+        // '/town/adminapi': { target, changeOrigin: true },
       },
     },
   };
