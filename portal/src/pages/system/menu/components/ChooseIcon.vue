@@ -13,7 +13,7 @@
     </ModalLayout>
   </a-modal>
 </template>
-<script lang="jsx" setup>
+<script lang="jsx" name="ChooseIcon" setup>
 import { set, get, tryOnMounted } from '@vueuse/core';
 import { useRequest, useToggle } from 'ahooks-vue';
 import { message } from 'ant-design-vue';

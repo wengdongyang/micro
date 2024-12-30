@@ -3,13 +3,13 @@
     <section :class="$style['modal-content']">
       <slot />
     </section>
-    <footer :class="$style['modal-footer']">
+    <section :class="$style['modal-footer']" v-if="footer">
       <slot v-if="$slots.footer" name="footer" />
       <template v-else>
         <a-button :class="$style['btn']" type="default" @click="$emit('cancel')">取消</a-button>
         <a-button :class="$style['btn']" type="primary" @click="$emit('ok')">确认</a-button>
       </template>
-    </footer>
+    </section>
   </section>
 </template>
 <script lang="jsx" setup>
@@ -20,6 +20,7 @@
 // configs
 // components
 // props
+const props = defineProps({ footer: { type: Boolean, default: true } });
 // emits
 const emits = defineEmits(['ok', 'cancel']);
 // refs

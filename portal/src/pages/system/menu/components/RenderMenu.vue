@@ -13,7 +13,7 @@
     </section>
   </section>
 </template>
-<script lang="jsx" name="Menu" setup>
+<script lang="jsx" name="RenderMenu" setup>
 // apis
 // hooks
 // utils

@@ -11,7 +11,7 @@
     </a-form>
   </ModalLayout>
 </template>
-<script lang="jsx" setup>
+<script lang="jsx" name="EditMenu" setup>
 import { set, tryOnMounted } from '@vueuse/core';
 import { ref } from 'vue';
 // apis
