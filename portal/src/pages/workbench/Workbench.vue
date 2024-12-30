@@ -1,25 +1,17 @@
 <template>
   <PageLayout>
-    workbench
-    <TablePaginationLayout class="workbench">
-      <template #header> </template>
-      <template #table> </template>
-    </TablePaginationLayout>
-    <a-modal v-model:open="visibleModal" :title="modalType === MODAL_TYPE.ADD ? '新增' : '编辑'" :footer="null" :maskClosable="false">
-      <AddOrUpdate
-        v-if="visibleModal"
-        :modalType="modalType"
-        :activeRecord="activeRecord"
-        @cancel="() => setVisibleModal(false)"
-        @editSuccessCallBack="() => setVisibleModal(false)"
-      />
-    </a-modal>
+    <a-row :gutter="[24, 24]">
+      <a-col :span="8">
+        <MyFeaturedApplications />
+      </a-col>
+    </a-row>
   </PageLayout>
 </template>
 <script lang="jsx" name="Workbench" setup>
 import { get, set, tryOnMounted } from '@vueuse/core';
 import { message } from 'ant-design-vue';
 import * as lodash from 'lodash';
+import { NEllipsis } from 'naive-ui';
 import { computed, ref, unref, watch } from 'vue';
 // apis
 // hooks
@@ -30,16 +22,15 @@ import { useStoreSystem } from '@src/stores';
 // configs
 import { MODAL_TYPE } from '@src/configs';
 // components
-import { PageLayout, TablePaginationLayout } from '@src/components';
-import AddOrUpdate from './components/AddOrUpdate.vue';
+import { PageLayout } from '@src/components';
+import MyFeaturedApplications from './components/MyFeaturedApplications.vue';
 // props
 const props = defineProps({});
 // emits
 const emits = defineEmits(['']);
 // refs
 // computed
-const { loading, pagination, dataSource, total, activeRecord, getDataSourceTotal, resetPagination, onChangePagination, setActiveRecord } =
-  useTablePaginationDataSourceTotal();
+const { loading, pagination, dataSource, total, activeRecord, getDataSourceTotal, resetPagination, onChangePagination, setActiveRecord } = useTablePaginationDataSourceTotal();
 const [modalType, setModalType] = useModalType();
 const [visibleModal, setVisibleModal] = useModalVisible();
 

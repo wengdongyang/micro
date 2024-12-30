@@ -15,49 +15,49 @@ const resultSuccess = data => {
 };
 
 export default defineMock([
-  {
-    url: '/town/adminapi/captchaImage',
-    body: () => Mock.mock({ code: 200, img: Mock.mock('@image'), uuid: '@id', msg: '成功!' }),
-  },
-  {
-    url: '/town/adminapi/loginPlatform',
-    body: () => Mock.mock({ mgToken: '@id', code: 200, token: '@id', msg: '成功!' }),
-  },
-  {
-    url: '/town/adminapi/loginTenant',
-    body: () => Mock.mock({ mgToken: '@id', code: 200, token: '@id', msg: '成功!' }),
-  },
-  {
-    url: '/town/adminapi/getInfo',
-    body: () =>
-      Mock.mock({
-        msg: '操作成功',
-        code: 200,
-        permissions: ['monitor:logininfor:list', 'monitor:operlog:query', 'monitor:operlog:list', 'system:orgPeoples:index', 'monitor:logininfor:query', 'system:peoples:index'],
-        roles: ['wrjxmjs'],
-        user: {
-          createBy: 'admin',
-          createTime: '2024-10-09 10:30:52',
-          userId: 493,
-          userName: 'kqqAdmin1',
-          nickName: '柯桥区账户',
-          userType: 'tenant',
-          email: '',
-          phonenumber: '14144512265',
-          sex: '0',
-          avatar: '',
-          password: '$2a$10$h4kxv6qf2i77BzKOgKDFKeUYHcK3kiswx8bh/SY3ftfPA/W88sqxy',
-          status: '0',
-          delFlag: '0',
-          loginIp: '124.91.150.6',
-          loginDate: 1735300119000,
-          roles: [{ roleId: 149, roleName: '无人机角色', roleKey: 'wrjxmjs', roleSort: 0, dataScope: '1', menuCheckStrictly: false, deptCheckStrictly: false, status: '0', flag: false, admin: false }],
-          parentUserId: 1,
-          admin: false,
-        },
-        regionNo: '330603',
-      }),
-  },
+  // {
+  //   url: '/town/adminapi/captchaImage',
+  //   body: () => Mock.mock({ code: 200, img: Mock.mock('@image'), uuid: '@id', msg: '成功!' }),
+  // },
+  // {
+  //   url: '/town/adminapi/loginPlatform',
+  //   body: () => Mock.mock({ mgToken: '@id', code: 200, token: '@id', msg: '成功!' }),
+  // },
+  // {
+  //   url: '/town/adminapi/loginTenant',
+  //   body: () => Mock.mock({ mgToken: '@id', code: 200, token: '@id', msg: '成功!' }),
+  // },
+  // {
+  //   url: '/town/adminapi/getInfo',
+  //   body: () =>
+  //     Mock.mock({
+  //       msg: '操作成功',
+  //       code: 200,
+  //       permissions: ['monitor:logininfor:list', 'monitor:operlog:query', 'monitor:operlog:list', 'system:orgPeoples:index', 'monitor:logininfor:query', 'system:peoples:index'],
+  //       roles: ['wrjxmjs'],
+  //       user: {
+  //         createBy: 'admin',
+  //         createTime: '2024-10-09 10:30:52',
+  //         userId: 493,
+  //         userName: 'kqqAdmin1',
+  //         nickName: '柯桥区账户',
+  //         userType: 'tenant',
+  //         email: '',
+  //         phonenumber: '14144512265',
+  //         sex: '0',
+  //         avatar: '',
+  //         password: '$2a$10$h4kxv6qf2i77BzKOgKDFKeUYHcK3kiswx8bh/SY3ftfPA/W88sqxy',
+  //         status: '0',
+  //         delFlag: '0',
+  //         loginIp: '124.91.150.6',
+  //         loginDate: 1735300119000,
+  //         roles: [{ roleId: 149, roleName: '无人机角色', roleKey: 'wrjxmjs', roleSort: 0, dataScope: '1', menuCheckStrictly: false, deptCheckStrictly: false, status: '0', flag: false, admin: false }],
+  //         parentUserId: 1,
+  //         admin: false,
+  //       },
+  //       regionNo: '330603',
+  //     }),
+  // },
   {
     url: '/town/adminapi/getRouters',
     body: () =>

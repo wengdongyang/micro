@@ -159,7 +159,7 @@ export const useStoreSystem = defineStore(
 
     const defaultRouterTab = {
       timeStamp: dayjs().format(FORMAT),
-      icon: 'fa-home',
+      iconName: 'fa-home',
       path: 'home',
       name: 'home',
       title: '首页',
@@ -201,9 +201,7 @@ export const useStoreSystem = defineStore(
         const index = prevRouterTabs.findIndex(routerTab => routerTab.path === tab.path);
         const currentTab = Object.assign({}, tab, { closable: true, timeStamp: dayjs().format(FORMAT) });
         if (index > -1) {
-          const nextRouterTabs = prevRouterTabs.map(routerTab =>
-            routerTab.path === tab.path ? currentTab : routerTab,
-          );
+          const nextRouterTabs = prevRouterTabs.map(routerTab => (routerTab.path === tab.path ? currentTab : routerTab));
           set(ROUTER_TABS, nextRouterTabs);
         } else {
           const nextRouterTabs = prevRouterTabs.concat([currentTab]);
@@ -225,9 +223,7 @@ export const useStoreSystem = defineStore(
         set(ROUTER_TABS, nextRouterTabs);
 
         if (prevActiveRouterTab.path === key) {
-          const routerTabsByTimeStamp = lodash
-            .cloneDeep(nextRouterTabs)
-            .sort((prev, next) => (dayjs(prev.timeStamp).isBefore(dayjs(next.timeStamp)) ? 1 : -1));
+          const routerTabsByTimeStamp = lodash.cloneDeep(nextRouterTabs).sort((prev, next) => (dayjs(prev.timeStamp).isBefore(dayjs(next.timeStamp)) ? 1 : -1));
           const currentTab = routerTabsByTimeStamp[0];
           currentTab && set(ACTIVE_ROUTER_TAB, currentTab);
         }
@@ -242,9 +238,7 @@ export const useStoreSystem = defineStore(
         const index = prevRouterTabs.findIndex(routerTab => routerTab.path === tab.path);
         const currentTab = Object.assign({}, tab, { timeStamp: dayjs().format(FORMAT) });
         if (index > -1) {
-          const nextRouterTabs = prevRouterTabs.map(routerTab =>
-            routerTab.path === tab.path ? currentTab : routerTab,
-          );
+          const nextRouterTabs = prevRouterTabs.map(routerTab => (routerTab.path === tab.path ? currentTab : routerTab));
           set(ROUTER_TABS, nextRouterTabs);
         }
         set(ACTIVE_ROUTER_TAB, currentTab);

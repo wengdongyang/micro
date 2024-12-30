@@ -52,8 +52,7 @@ export default defineConfig(({ mode }) => {
       host: true,
       open: true,
       proxy: {
-        '/town/adminapi': 'http://example.com/',
-        // '/town/adminapi': { target, changeOrigin: true },
+        '/town/adminapi': { target, changeOrigin: true },
       },
     },
   };

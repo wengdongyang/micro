@@ -1,5 +1,9 @@
 export const pageGroupList = [
-  { title: '工作台', name: 'workbench', components: [{ name: 'addOrUpdate', title: '编辑' }] },
+  {
+    title: '工作台',
+    name: 'workbench',
+    components: [{ name: 'myFeaturedApplications', title: '已购特色应用' }],
+  },
   { title: '应用后台', name: 'applicationBackend', components: [{ name: 'addOrUpdate', title: '编辑' }] },
   { title: 'Banner配置', name: 'bannerConfiguration', components: [{ name: 'addOrUpdate', title: '编辑' }] },
   { title: '快讯中心', name: 'newsCenter', components: [{ name: 'addOrUpdate', title: '编辑' }] },

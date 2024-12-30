@@ -22,6 +22,8 @@ import lodash from 'lodash';
 import { createApp } from 'vue';
 import Antd from 'ant-design-vue';
 import { createPinia } from 'pinia';
+import microApp from '@micro-zoe/micro-app';
+
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate';
 
 import App from './App.vue';
@@ -43,3 +45,4 @@ pinia.use(({ store }) => {
 app.use(Antd).use(pinia).use(router);
 
 app.mount('#app');
+microApp.start();

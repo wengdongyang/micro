@@ -99,17 +99,15 @@ router.beforeEach((to, from, next) => {
   NProgress.start();
   if (whiteRouterList.includes(to.path)) {
     next();
-    NProgress.done();
   } else {
     const token = sessionStorage.getItem(ENV.TOKEN_KEY);
     if (token) {
       next();
-      NProgress.done();
     } else {
       next({ path: '/login' });
-      NProgress.done();
     }
   }
+  NProgress.done();
 });
 
 export default router;

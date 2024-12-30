@@ -15,6 +15,7 @@ import { get, set, tryOnMounted } from '@vueuse/core';
 import { useRequest } from 'ahooks-vue';
 import { message } from 'ant-design-vue';
 import * as lodash from 'lodash';
+import { NEllipsis } from 'naive-ui';
 import { computed, ref, unref, watch } from 'vue';
 // apis
 // hooks
