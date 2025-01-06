@@ -32,7 +32,7 @@ import { useRoute, useRouter } from 'vue-router';
 // hooks
 // utils
 // stores
-import { useStoreUserAuth } from '@src/stores';
+import { useStoreUserAuth } from 'src/stores';
 // configs
 // components
 // props

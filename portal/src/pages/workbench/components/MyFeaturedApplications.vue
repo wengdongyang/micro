@@ -35,11 +35,11 @@ import { message } from 'ant-design-vue';
 import { NEllipsis } from 'naive-ui';
 import { ref } from 'vue';
 // apis
-import { apiGetApplicationOwnerSearch } from '@src/apis';
+import { apiGetApplicationOwnerSearch } from 'src/apis';
 // hooks
 // utils
 // stores
-import { useStoreSystem } from '@src/stores';
+import { useStoreSystem } from 'src/stores';
 // configs
 // components
 // props

@@ -13,8 +13,23 @@
         {{ subMenuGroup.title }}
       </section>
       <aside class="sub-menu-title-action-content-3">
-        <a-button v-show="subMenuGroup.id === activeMenu.id" type="link" size="small" @click="$emit('editPage', subMenuGroup)"> 编辑 </a-button>
-        <a-button v-show="subMenuGroup.id === activeMenu.id && subMenuGroup.children.length === 0" type="link" size="small" danger @click="$emit('deletePage', subMenuGroup)"> 删除 </a-button>
+        <a-button
+          v-show="subMenuGroup.id === activeMenu.id"
+          type="link"
+          size="small"
+          @click="$emit('editPage', subMenuGroup)"
+        >
+          编辑
+        </a-button>
+        <a-button
+          v-show="subMenuGroup.id === activeMenu.id && subMenuGroup.children.length === 0"
+          type="link"
+          size="small"
+          danger
+          @click="$emit('deletePage', subMenuGroup)"
+        >
+          删除
+        </a-button>
 
         <a-button type="link" size="small" @click.stop="isShowChildren = !isShowChildren">
           <i class="sub-menu-toggle-icon fa" :class="isShowChildren ? 'fa-angle-double-up' : 'fa-angle-double-down'" />
@@ -31,7 +46,12 @@
       @change="event => $emit('changeSubPage', event, subMenuGroup)"
     >
       <template #item="{ element: subMenu }">
-        <section class="sub-menu-item" :class="{ active: subMenu.id === activeMenu.id }" v-if="subMenu.type === MENU_TYPE.PAGE" @click="$emit('clickSubPage', subMenu)">
+        <section
+          class="sub-menu-item"
+          :class="{ active: subMenu.id === activeMenu.id }"
+          v-if="subMenu.type === MENU_TYPE.PAGE"
+          @click="$emit('clickSubPage', subMenu)"
+        >
           <section class="sub-menu-item-title">
             <i class="sub-menu-item-type-icon fa fa-file" />
             <i class="sub-menu-item-icon fa" v-if="subMenu.iconName" :class="subMenu.iconName" />
@@ -56,7 +76,7 @@ import Draggable from 'vuedraggable';
 // utils
 // stores
 // configs
-import { MENU_TYPE } from '@src/configs';
+import { MENU_TYPE } from 'src/configs';
 // components
 // props
 defineProps({

@@ -19,7 +19,7 @@ import { tryOnMounted } from '@vueuse/core';
 // utils
 // stores
 // configs
-import { ENV } from '@src/configs';
+import { ENV } from 'src/configs';
 // components
 import SystemLayout from './components/SystemLayout.vue';
 import SystemHeader from './components/SystemHeader.vue';

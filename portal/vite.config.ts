@@ -44,7 +44,7 @@ export default defineConfig(({ mode }) => {
     },
     resolve: {
       alias: {
-        '@src': fileURLToPath(new URL('./src', import.meta.url)),
+        src: fileURLToPath(new URL('./src', import.meta.url)),
       },
     },
     server: {

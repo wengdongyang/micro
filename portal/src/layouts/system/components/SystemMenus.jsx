@@ -4,12 +4,12 @@ import classNames from 'classnames';
 import { storeToRefs } from 'pinia';
 import { defineComponent, Fragment, nextTick, onMounted } from 'vue';
 // apis
-import { apiGetGetRouters } from '@src/apis';
+import { apiGetGetRouters } from 'src/apis';
 // hooks
 // utils
 import { findMenuItemByKeyPath } from '../utils';
 // stores
-import { useStoreSystem } from '@src/stores';
+import { useStoreSystem } from 'src/stores';
 // configs
 // components
 // props

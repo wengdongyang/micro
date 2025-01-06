@@ -1,6 +1,11 @@
 <template>
   <a-layout :class="$style['system-layout']" hasSider>
-    <a-layout-sider :class="$style['system-layout-aside']" :collapsed="computedCollapsed" @update:collapsed="setCollapsed" collapsible>
+    <a-layout-sider
+      :class="$style['system-layout-aside']"
+      :collapsed="computedCollapsed"
+      @update:collapsed="setCollapsed"
+      collapsible
+    >
       <section :class="$style['aside-layout']">
         <header :class="$style['aside-header']">
           <img :class="$style['logo']" :src="ImageLogo" />
@@ -18,7 +23,13 @@
       <a-layout-content :class="$style['system-layout-layout-content']">
         <section :class="$style['main-layout']">
           <header :class="$style['main-header']">
-            <a-tabs :activeKey="computedActiveRouterTab.path" @change="onChangeTab" @edit="onEditTab" type="editable-card" hide-add>
+            <a-tabs
+              :activeKey="computedActiveRouterTab.path"
+              @change="onChangeTab"
+              @edit="onEditTab"
+              type="editable-card"
+              hide-add
+            >
               <a-tab-pane v-for="tab in computedRouterTabs" :key="tab.path" :closable="tab.closable">
                 <template #tab>
                   <i v-if="tab.iconName" class="fa" :class="tab.iconName" />
@@ -42,7 +53,7 @@ import { storeToRefs } from 'pinia';
 // hooks
 // utils
 // stores
-import { useStoreSystem } from '@src/stores';
+import { useStoreSystem } from 'src/stores';
 // configs
 // components
 import ImageLogo from '../assets/images/logo.png';

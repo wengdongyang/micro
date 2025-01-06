@@ -68,14 +68,14 @@ import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { NForm, NFormItem, NGrid, NGridItem, NInput, NCheckbox, NButton } from 'naive-ui';
 // apis
-import { apiGetGetInfo } from '@src/apis';
+import { apiGetGetInfo } from 'src/apis';
 // hooks
 // utils
 import { encrypt } from '../utils';
 // stores
-import { useStoreLoginFormState, useStoreUserAuth } from '@src/stores';
+import { useStoreLoginFormState, useStoreUserAuth } from 'src/stores';
 // configs
-import { ENV } from '@src/configs';
+import { ENV } from 'src/configs';
 // components
 import CaptchaImage from './CaptchaImage.vue';
 const { push } = useRouter();

@@ -7,7 +7,7 @@ import { message } from 'ant-design-vue';
 import * as lodash from 'lodash';
 import { get, set, tryOnMounted } from '@vueuse/core';
 // apis
-import { apiGetCaptchaImage } from '@src/apis';
+import { apiGetCaptchaImage } from 'src/apis';
 
 // hooks
 
@@ -24,7 +24,9 @@ const captchaUrl = ref();
 
 const captchaImage = computed(() => {
   try {
-    const regExp = new RegExp(/^(((ht|f)tps?):\/\/)?([^!@#$%^&*?.\s-]([^!@#$%^&*?.\s]{0,63}[^!@#$%^&*?.\s])?\.)+[a-z]{2,6}\/?/);
+    const regExp = new RegExp(
+      /^(((ht|f)tps?):\/\/)?([^!@#$%^&*?.\s-]([^!@#$%^&*?.\s]{0,63}[^!@#$%^&*?.\s])?\.)+[a-z]{2,6}\/?/,
+    );
     const url = get(captchaUrl);
     if (regExp.test(url)) {
       return url;

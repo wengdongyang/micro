@@ -5,7 +5,7 @@ import { ref } from 'vue';
 // utils
 // stores
 // configs
-import { MODAL_TYPE } from '@src/configs';
+import { MODAL_TYPE } from 'src/configs';
 // components
 // props
 // emits
