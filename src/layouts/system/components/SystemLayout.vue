@@ -53,7 +53,7 @@ import { storeToRefs } from 'pinia';
 // hooks
 // utils
 // stores
-import { useStoreSystem } from 'src/stores';
+import { useStoreSystem } from '@src/stores';
 // configs
 // components
 import ImageLogo from '../assets/images/logo.png';

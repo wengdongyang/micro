@@ -7,7 +7,7 @@ import { message } from 'ant-design-vue';
 import * as lodash from 'lodash';
 import { get, set, tryOnMounted } from '@vueuse/core';
 // apis
-import { apiGetCaptchaImage } from 'src/apis';
+import { apiGetCaptchaImage } from '@src/apis';
 
 // hooks
 

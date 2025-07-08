@@ -8,7 +8,7 @@
 // stores
 // configs
 // components
-import { PageLayout } from 'src/components';
+import { PageLayout } from '@src/components';
 // props
 const props = defineProps({});
 // emits

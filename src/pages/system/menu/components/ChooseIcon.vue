@@ -24,9 +24,9 @@ import { ref, computed, watch } from 'vue';
 // utils
 // stores
 // configs
-import { fontAwesomeClassNames } from 'src/configs';
+import { fontAwesomeClassNames } from '@src/configs';
 // components
-import { ModalLayout } from 'src/components';
+import { ModalLayout } from '@src/components';
 // props
 // emits
 // refs

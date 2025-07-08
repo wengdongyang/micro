@@ -6,7 +6,7 @@ import NProgress from 'nprogress';
 // utils
 // stores
 // configs
-import { ENV } from 'src/configs';
+import { ENV } from '@src/configs';
 // components
 // 创建axios实例
 const request = axios.create({

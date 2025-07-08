@@ -5,7 +5,7 @@ import { message } from 'ant-design-vue';
 // utils
 // stores
 // configs
-import { MENU_TYPE } from 'src/configs';
+import { MENU_TYPE } from '@src/configs';
 // components
 // props
 // emits

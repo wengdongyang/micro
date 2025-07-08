@@ -2,7 +2,7 @@
 // apis
 // hooks
 // utils
-import { requestGet, requestPost } from 'src/utils';
+import { requestGet, requestPost } from '@src/utils';
 // stores
 // mixins
 // configs

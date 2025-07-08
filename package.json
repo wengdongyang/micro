@@ -72,6 +72,8 @@
     "vite": "^6.0.5",
     "vite-plugin-html": "^3.2.2",
     "vite-plugin-mock-dev-server": "^1.8.3",
+    "vite-plugin-remove-console": "^2.2.0",
+    "vite-plugin-rm-others-console": "^0.0.16",
     "vite-plugin-vue-devtools": "^7.6.8",
     "vue-tsc": "^2.1.10"
   },

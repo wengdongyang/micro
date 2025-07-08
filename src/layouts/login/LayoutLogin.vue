@@ -26,9 +26,9 @@ import { tryOnMounted } from '@vueuse/core';
 // hooks
 // utils
 // stores
-import { useStoreUserAuth, useStoreSystem } from 'src/stores';
+import { useStoreUserAuth, useStoreSystem } from '@src/stores';
 // configs
-import { ENV } from 'src/configs';
+import { ENV } from '@src/configs';
 // components
 import AdminLoginForm from './components/AdminLoginForm.vue';
 import TenantLoginForm from './components/TenantLoginForm.vue';

@@ -1,7 +1,7 @@
 // apis
 // hooks
 // utils
-import { requestGet, requestPost, requestDelete } from 'src/utils';
+import { requestGet, requestPost, requestDelete } from '@src/utils';
 // stores
 // mixins
 // configs

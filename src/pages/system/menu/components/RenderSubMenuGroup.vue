@@ -76,7 +76,7 @@ import Draggable from 'vuedraggable';
 // utils
 // stores
 // configs
-import { MENU_TYPE } from 'src/configs';
+import { MENU_TYPE } from '@src/configs';
 // components
 // props
 defineProps({

@@ -15,14 +15,14 @@ import { NEllipsis } from 'naive-ui';
 import { computed, ref, unref, watch } from 'vue';
 // apis
 // hooks
-import { useModalType, useModalVisible, useTablePaginationDataSourceTotal } from 'src/hooks';
+import { useModalType, useModalVisible, useTablePaginationDataSourceTotal } from '@src/hooks';
 // utils
 // stores
-import { useStoreSystem } from 'src/stores';
+import { useStoreSystem } from '@src/stores';
 // configs
-import { MODAL_TYPE } from 'src/configs';
+import { MODAL_TYPE } from '@src/configs';
 // components
-import { PageLayout } from 'src/components';
+import { PageLayout } from '@src/components';
 import MyFeaturedApplications from './components/MyFeaturedApplications.vue';
 // props
 const props = defineProps({});

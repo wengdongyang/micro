@@ -69,14 +69,14 @@ import { storeToRefs } from 'pinia';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 // apis
-import { apiGetGetInfo, apiPostLoginPlatform } from 'src/apis';
+import { apiGetGetInfo, apiPostLoginPlatform } from '@src/apis';
 // hooks
 // utils
 import { encrypt } from '../utils';
 // stores
-import { useStoreLoginFormState, useStoreUserAuth } from 'src/stores';
+import { useStoreLoginFormState, useStoreUserAuth } from '@src/stores';
 // configs
-import { ENV } from 'src/configs';
+import { ENV } from '@src/configs';
 // components
 import CaptchaImage from './CaptchaImage.vue';
 const { push } = useRouter();

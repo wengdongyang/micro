@@ -19,9 +19,9 @@ import { ref } from 'vue';
 // utils
 // stores
 // configs
-import { MENU_TYPE, MODAL_TYPE } from 'src/configs';
+import { MENU_TYPE, MODAL_TYPE } from '@src/configs';
 // components
-import { ModalLayout } from 'src/components';
+import { ModalLayout } from '@src/components';
 // props
 const props = defineProps({
   modalType: { type: String },

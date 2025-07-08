@@ -35,14 +35,14 @@ import { NEllipsis } from 'naive-ui';
 import { computed, ref, unref, watch } from 'vue';
 // apis
 // hooks
-import { useModalType, useModalVisible, useTablePaginationDataSourceTotal } from 'src/hooks';
+import { useModalType, useModalVisible, useTablePaginationDataSourceTotal } from '@src/hooks';
 // utils
 // stores
-import { useStoreSystem } from 'src/stores';
+import { useStoreSystem } from '@src/stores';
 // configs
-import { MODAL_TYPE } from 'src/configs';
+import { MODAL_TYPE } from '@src/configs';
 // components
-import { PageLayout, TablePaginationLayout } from 'src/components';
+import { PageLayout, TablePaginationLayout } from '@src/components';
 import AddOrUpdate from './components/AddOrUpdate.vue';
 // props
 const props = defineProps({});
@@ -83,9 +83,9 @@ import { computed, ref, unref, watch } from 'vue';
 // utils
 // stores
 // configs
-import { MODAL_TYPE } from 'src/configs';
+import { MODAL_TYPE } from '@src/configs';
 // components
-import { ModalLayout } from 'src/components';
+import { ModalLayout } from '@src/components';
 // props
 const props = defineProps({ modalType: { type: String } });
 // emits

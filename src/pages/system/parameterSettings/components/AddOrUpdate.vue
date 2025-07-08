@@ -16,9 +16,9 @@ import { computed, ref, unref, watch } from 'vue';
 // utils
 // stores
 // configs
-import { MODAL_TYPE } from 'src/configs';
+import { MODAL_TYPE } from '@src/configs';
 // components
-import { ModalLayout } from 'src/components';
+import { ModalLayout } from '@src/components';
 // props
 const props = defineProps({ modalType: { type: String } });
 // emits

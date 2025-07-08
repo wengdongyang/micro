@@ -25,12 +25,12 @@ import { nextTick, onMounted, computed } from 'vue';
 // hooks
 // utils
 // stores
-import { useStoreSystem, useStoreUserAuth } from 'src/stores';
+import { useStoreSystem, useStoreUserAuth } from '@src/stores';
 // configs
 // components
-import SystemHeader from 'src/layouts/system/components/SystemHeader.vue';
-import SystemLayout from 'src/layouts/system/components/SystemLayout.vue';
-import SystemMenus from 'src/layouts/system/components/SystemMenus.jsx';
+import SystemHeader from '@src/layouts/system/components/SystemHeader.vue';
+import SystemLayout from '@src/layouts/system/components/SystemLayout.vue';
+import SystemMenus from '@src/layouts/system/components/SystemMenus.jsx';
 // props
 // emits
 // refs

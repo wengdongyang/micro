@@ -104,18 +104,18 @@ import * as lodash from 'lodash';
 import { ref, unref } from 'vue';
 import Draggable from 'vuedraggable';
 // apis
-import { apiGetGetRouters } from 'src/apis';
+import { apiGetGetRouters } from '@src/apis';
 // hooks
-import { useModalType, useModalVisible } from 'src/hooks';
+import { useModalType, useModalVisible } from '@src/hooks';
 // utils
 import { handleMenuDragEventWaters } from './utils';
 // stores
-import { useStoreSystem } from 'src/stores';
+import { useStoreSystem } from '@src/stores';
 // configs
-import { MENU_TYPE, MODAL_TYPE } from 'src/configs';
-import { systemPages } from 'src/pages/index';
+import { MENU_TYPE, MODAL_TYPE } from '@src/configs';
+import { systemPages } from '@src/pages/index';
 // components
-import { PageLayout } from 'src/components';
+import { PageLayout } from '@src/components';
 import RenderMenu from './components/RenderMenu.vue';
 import RenderSubMenuGroup from './components/RenderSubMenuGroup.vue';
 import EditMenu from './components/EditMenu.vue';
