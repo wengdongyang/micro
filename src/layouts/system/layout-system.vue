@@ -48,5 +48,5 @@ tryOnMounted(() => {
 });
 </script>
 <style lang="less" module>
-@import './LayoutSystem.module.less';
+@import './layout-system.module.less';
 </style>
