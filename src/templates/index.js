@@ -10,7 +10,7 @@ import { pageGroupList } from './configs.js';
 // components
 import { templateAddOrUpdateComponentVue, templateIndexVue } from './templateFile.js';
 
-const { get, upperFirst, hasIn } = lodash.default;
+const { get, upperFirst, kebabCase, hasIn } = lodash.default;
 
 const createPageGroup = async (pageGroup, basePath) => {
   try {
@@ -30,7 +30,7 @@ const createPage = async (page, basePath) => {
     const pageName = get(page, ['name']);
     const PageName = kebabCase(pageName);
     const components = get(page, ['components']) || [];
-    const filePath = `${basePath}/${pageName}`;
+    const filePath = `${basePath}/${PageName}`;
     mkdirSync(filePath);
     mkdirSync(`${filePath}/components`);
     writeFileSync(`${filePath}/components/.gitkeep`, 'null not found'); // 生成 对应的占位文件

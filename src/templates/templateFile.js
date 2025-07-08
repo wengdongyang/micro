@@ -10,14 +10,14 @@ const { upperFirst } = lodash.default;
 export const templateIndexVue = ({ name, components = [] }) => {
   const Name = upperFirst(name);
   return `<template>
-  <PageLayout>
+  <page-layout>
     ${name}
-    <TablePaginationLayout class="${name}">
+    <table-pagination-layout class="${name}">
       <template #header> </template>
       <template #table> </template>
-    </TablePaginationLayout>
+    </table-pagination-layout>
     <a-modal v-model:open="visibleModal" :title="modalType === MODAL_TYPE.ADD ? '新增' : '编辑'" :footer="null" :maskClosable="false">
-      <AddOrUpdate
+      <add-or-update
         v-if="visibleModal"
         :modalType="modalType"
         :activeRecord="activeRecord"
@@ -25,7 +25,7 @@ export const templateIndexVue = ({ name, components = [] }) => {
         @editSuccessCallBack="() => setVisibleModal(false)"
       />
     </a-modal>
-  </PageLayout>
+  </page-layout>
 </template>
 <script lang="jsx" name="${Name}" setup>
 import { get, set, tryOnMounted } from '@vueuse/core';
@@ -43,7 +43,7 @@ import { useStoreSystem } from '@src/stores';
 import { MODAL_TYPE } from '@src/configs';
 // components
 import { PageLayout, TablePaginationLayout } from '@src/components';
-import AddOrUpdate from './components/AddOrUpdate.vue';
+import AddOrUpdate from './components/add-or-update.vue';
 // props
 const props = defineProps({});
 // emits
