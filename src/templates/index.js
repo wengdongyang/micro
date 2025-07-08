@@ -28,7 +28,7 @@ const createPageGroup = async (pageGroup, basePath) => {
 const createPage = async (page, basePath) => {
   try {
     const pageName = get(page, ['name']);
-    const PageName = upperFirst(pageName);
+    const PageName = kebabCase(pageName);
     const components = get(page, ['components']) || [];
     const filePath = `${basePath}/${pageName}`;
     mkdirSync(filePath);
@@ -37,7 +37,7 @@ const createPage = async (page, basePath) => {
     writeFileSync(`${filePath}/${PageName}.vue`, templateIndexVue({ name: pageName, components }));
     writeFileSync(`${filePath}/${PageName}.less`, ``);
     components.forEach(component => {
-      const Component = upperFirst(component.name);
+      const Component = kebabCase(component.name);
       writeFileSync(`${filePath}/components/${Component}.vue`, templateAddOrUpdateComponentVue({ name: Component }));
       writeFileSync(`${filePath}/components/${Component}.less`, ``);
     });

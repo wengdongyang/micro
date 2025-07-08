@@ -1,11 +1,12 @@
+<!-- @format -->
 <template>
-  <NForm class="form" :ref="ref => (formRef = ref)" :model="formState" size="large" label-placement="left">
+  <NForm class="form" :ref="ref => (formRef = ref)" label-placement="left" :model="formState" size="large">
     <NFormItem
       class="form-item"
       path="username"
       :rule="{ required: true, message: '请输入系统用户账号', trigger: ['input', 'blur'] }"
     >
-      <NInput class="input" v-model:value="formState.username" type="text" placeholder="系统用户账号" clearable>
+      <NInput class="input" v-model:value="formState.username" placeholder="系统用户账号" type="text" clearable>
         <template #prefix>
           <i class="fa fa-user" />
         </template>
@@ -19,9 +20,9 @@
       <NInput
         class="input"
         v-model:value="formState.password"
-        type="password"
         placeholder="请输入密码"
         show-password-on="click"
+        type="password"
         clearable
       >
         <template #prefix>
@@ -56,19 +57,19 @@
       <NCheckbox class="remember-me" v-model:checked="isRememberMe"> 记住密码 </NCheckbox>
     </NFormItem>
     <NFormItem class="form-item">
-      <NButton class="login-btn" type="info" @click="onClickLogin" block> 登 录 </NButton>
+      <NButton class="login-btn" type="info" block @click="onClickLogin"> 登 录 </NButton>
     </NFormItem>
   </NForm>
 </template>
-<script lang="jsx" setup>
-import { get, set, tryOnMounted } from '@vueuse/core';
+<script lang="jsx" name="AdminLoginForm" setup>
+import { get, tryOnMounted } from '@vueuse/core';
 import { message } from 'ant-design-vue';
+import { NButton, NCheckbox, NForm, NFormItem, NGrid, NGridItem, NInput } from 'naive-ui';
 import { storeToRefs } from 'pinia';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
-import { NForm, NFormItem, NGrid, NGridItem, NInput, NCheckbox, NButton } from 'naive-ui';
 // apis
-import { apiGetGetInfo } from '@src/apis';
+import { apiGetGetInfo, apiPostLoginPlatform } from '@src/apis';
 // hooks
 // utils
 import { encrypt } from '../utils';
@@ -77,11 +78,11 @@ import { useStoreLoginFormState, useStoreUserAuth } from '@src/stores';
 // configs
 import { ENV } from '@src/configs';
 // components
-import CaptchaImage from './CaptchaImage.vue';
+import CaptchaImage from './captcha-image.vue';
 const { push } = useRouter();
 const storeUserAuth = useStoreUserAuth();
 const storeLoginFormState = useStoreLoginFormState();
-const { computedTenantLoginFormState, computedTenantIsRememberMe } = storeToRefs(storeLoginFormState);
+const { computedAdminLoginFormState, computedAdminIsRememberMe } = storeToRefs(storeLoginFormState);
 // props
 // emits
 // refs
@@ -93,18 +94,18 @@ const captchaImageRef = ref(null);
 
 const formState = ref(
   ENV.MODE === 'development'
-    ? { username: ENV.TENANT_USERNAME, password: ENV.TENANT_PASSWORD, code: '', uuid: '' }
+    ? { username: ENV.ADMIN_USERNAME, password: ENV.ADMIN_PASSWORD, code: '', uuid: '' }
     : { username: '', password: '', code: '', uuid: '' },
 );
 const isRememberMe = ref(false);
 
 const initFormState = () => {
   try {
-    const storeIsRememberMe = get(computedTenantIsRememberMe);
-    const storeLoginFormState = get(computedTenantLoginFormState);
+    const storeIsRememberMe = get(computedAdminIsRememberMe);
+    const storeLoginFormState = get(computedAdminLoginFormState);
     if (storeIsRememberMe) {
       isRememberMe.value = storeIsRememberMe;
-      formState.value = Object.assign(storeLoginFormState, { code: '', uuid: '' });
+      formState.value = Object.assign({}, storeLoginFormState, { code: '', uuid: '' });
     }
   } catch (error) {
     console.warn(error);
@@ -137,6 +138,7 @@ const onUpdateCaptchaImage = () => {
 const onClickLogin = async () => {
   try {
     const isValidate = await formRef.value.validate();
+
     if (isValidate) {
       const values = get(formState);
       const innerIsRememberMe = get(isRememberMe);
@@ -144,18 +146,14 @@ const onClickLogin = async () => {
       const { password } = values;
       const nextPassword = encrypt(password); // 对数据进行加密
 
-      const res = await apiPostLoginTenant(Object.assign({}, values, { password: nextPassword }));
-
+      const res = await apiPostLoginPlatform(Object.assign({}, values, { password: nextPassword }));
       const { code, msg } = res;
       if (code === 200) {
         storeUserAuth.setLoginToken(res);
-
         sessionStorage.setItem(ENV.TOKEN_KEY, res.token);
         sessionStorage.setItem(ENV.MG_TOKEN_KEY, res.mgToken);
-
-        storeLoginFormState.setTenantLoginFormState(innerIsRememberMe ? values : {});
-        storeLoginFormState.setTenantIsRememberMe(innerIsRememberMe);
-
+        storeLoginFormState.setAdminLoginFormState(innerIsRememberMe ? values : {});
+        storeLoginFormState.setAdminIsRememberMe(innerIsRememberMe);
         getUserInfoPermissionsRoles();
       } else {
         message.error(msg);
@@ -171,5 +169,5 @@ tryOnMounted(() => {
 });
 </script>
 <style lang="less" scoped>
-@import './LoginForm.less';
+@import './login-form.less';
 </style>

@@ -19,19 +19,19 @@
     </section>
   </section>
 </template>
-<script lang="jsx" setup>
-import { ref } from 'vue';
+<script lang="jsx" name="LayoutLogin" setup>
 import { tryOnMounted } from '@vueuse/core';
+import { ref } from 'vue';
 // apis
 // hooks
 // utils
 // stores
-import { useStoreUserAuth, useStoreSystem } from '@src/stores';
+import { useStoreSystem, useStoreUserAuth } from '@src/stores';
 // configs
 import { ENV } from '@src/configs';
 // components
-import AdminLoginForm from './components/AdminLoginForm.vue';
-import TenantLoginForm from './components/TenantLoginForm.vue';
+import AdminLoginForm from './components/admin-login-form.vue';
+import TenantLoginForm from './components/tenant-login-form.vue';
 
 const userType = ref('1');
 
@@ -49,5 +49,5 @@ tryOnMounted(() => {
 });
 </script>
 <style lang="less" scoped>
-@import './LayoutLogin.less';
+@import './layout-login.less';
 </style>

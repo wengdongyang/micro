@@ -8,7 +8,7 @@ import { createRouter, createWebHashHistory } from 'vue-router';
 // configs
 import { ENV } from '@src/configs/index.js';
 // components
-import LayoutLogin from '@src/layouts/login/LayoutLogin.vue';
+import LayoutLogin from '@src/layouts/login/layout-login.vue';
 import LayoutMicro from '@src/layouts/micro/LayoutMicro.vue';
 import LayoutSystem from '@src/layouts/system/LayoutSystem.vue';
 

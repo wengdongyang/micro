@@ -1,19 +1,16 @@
 <template>
   <img :class="$style['captcha-image']" :src="captchaImage" @click="getCaptchaImage" />
 </template>
-<script lang="jsx" setup>
+<script lang="jsx" name="CaptchaImage" setup>
 import { get, tryOnMounted } from '@vueuse/core';
 import { message } from 'ant-design-vue';
 import { computed, ref } from 'vue';
 // apis
 import { apiGetCaptchaImage } from '@src/apis';
-
 // hooks
-
 // stores
 // configs
 // components
-
 defineProps({
   uuid: { type: [String, Number] },
 });
