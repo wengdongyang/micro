@@ -8,7 +8,7 @@
     </section>
   </section>
 </template>
-<script lang="jsx" setup>
+<script lang="jsx" name="TablePaginationLayout" setup>
 // apis
 // hooks
 // utils
@@ -23,5 +23,5 @@
 // watch
 </script>
 <style lang="less" module>
-@import './TablePaginationLayout.less';
+@import './table-pagination-layout.less';
 </style>

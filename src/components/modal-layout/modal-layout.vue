@@ -12,7 +12,7 @@
     </section>
   </section>
 </template>
-<script lang="jsx" setup>
+<script lang="jsx" name="ModalLayout" setup>
 // apis
 // hooks
 // utils
@@ -29,5 +29,5 @@ const emits = defineEmits(['ok', 'cancel']);
 // watch
 </script>
 <style lang="less" module>
-@import './ModalLayout.less';
+@import './modal-layout.less';
 </style>

@@ -3,7 +3,7 @@
     <slot />
   </section>
 </template>
-<script lang="jsx" setup>
+<script lang="jsx" name="PageLayout" setup>
 // apis
 // hooks
 // utils
@@ -18,5 +18,5 @@
 // watch
 </script>
 <style lang="less" module>
-@import './PageLayout.less';
+@import './page-layout.less';
 </style>
