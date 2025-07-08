@@ -36,9 +36,9 @@ const formState = ref({});
 const initFormState = () => {
   try {
     if (props.modalType === MODAL_TYPE.ADD) {
-      set(formState, { type: MENU_TYPE.FOLDER });
+      formState.value = { type: MENU_TYPE.FOLDER };
     } else {
-      set(formState, props.activeMenu);
+      formState.value = props.activeMenu;
     }
   } catch (error) {
     console.warn(error);

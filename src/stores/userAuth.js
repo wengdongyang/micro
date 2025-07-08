@@ -1,5 +1,5 @@
 /** @format */
-import { get, set } from '@vueuse/core';
+import { get } from '@vueuse/core';
 import dayjs from 'dayjs';
 import lodash from 'lodash';
 import { defineStore } from 'pinia';
@@ -22,14 +22,14 @@ export const useStoreLoginFormState = defineStore(
     const computedAdminIsRememberMe = computed(() => get(ADMIN_IS_REMEMBER_ME));
     const setAdminLoginFormState = loginFormState => {
       try {
-        set(ADMIN_LOGIN_FORM_STATE, lodash.cloneDeep(loginFormState));
+        ADMIN_LOGIN_FORM_STATE.value = lodash.cloneDeep(loginFormState);
       } catch (error) {
         console.warn(error);
       }
     };
     const setAdminIsRememberMe = isRememberMe => {
       try {
-        set(ADMIN_IS_REMEMBER_ME, lodash.cloneDeep(isRememberMe));
+        ADMIN_IS_REMEMBER_ME.value = lodash.cloneDeep(isRememberMe);
       } catch (error) {
         console.warn(error);
       }
@@ -41,14 +41,14 @@ export const useStoreLoginFormState = defineStore(
     const computedTenantIsRememberMe = computed(() => get(TENANT_IS_REMEMBER_ME));
     const setTenantLoginFormState = loginFormState => {
       try {
-        set(TENANT_FORM_STATE, lodash.cloneDeep(loginFormState));
+        TENANT_FORM_STATE.value = lodash.cloneDeep(loginFormState);
       } catch (error) {
         console.warn(error);
       }
     };
     const setTenantIsRememberMe = isRememberMe => {
       try {
-        set(TENANT_IS_REMEMBER_ME, lodash.cloneDeep(isRememberMe));
+        TENANT_IS_REMEMBER_ME.value = lodash.cloneDeep(isRememberMe);
       } catch (error) {
         console.warn(error);
       }
@@ -60,7 +60,7 @@ export const useStoreLoginFormState = defineStore(
     const computedSonTenantIsRememberMe = computed(() => get(SON_TENANT_IS_REMEMBER_ME));
     const setSonTenantLoginFormState = loginFormState => {
       try {
-        set(SON_TENANT_FORM_STATE, lodash.cloneDeep(loginFormState));
+        SON_TENANT_FORM_STATE.value = lodash.cloneDeep(loginFormState);
       } catch (error) {
         console.warn(error);
       }
@@ -68,7 +68,7 @@ export const useStoreLoginFormState = defineStore(
 
     const setSonTenantIsRememberMe = isRememberMe => {
       try {
-        set(SON_TENANT_IS_REMEMBER_ME, lodash.cloneDeep(isRememberMe));
+        SON_TENANT_IS_REMEMBER_ME.value = lodash.cloneDeep(isRememberMe);
       } catch (error) {
         console.warn(error);
       }
@@ -117,7 +117,7 @@ export const useStoreUserAuth = defineStore(
 
     const setLoginToken = loginTokenInfo => {
       try {
-        set(LOGIN_TOKEN, lodash.cloneDeep(loginTokenInfo));
+        LOGIN_TOKEN.value = lodash.cloneDeep(loginTokenInfo);
       } catch (error) {
         console.warn(error);
       }
@@ -126,9 +126,9 @@ export const useStoreUserAuth = defineStore(
     const setUserInfoRolesPermissionsRoles = userInfoRolesPermissionsRoles => {
       try {
         const { roles, permissions, user, regionNo } = userInfoRolesPermissionsRoles;
-        set(ROLES, lodash.cloneDeep(roles));
-        set(USERINFO, lodash.cloneDeep(Object.assign({}, user, { regionNo })));
-        set(PERMISSIONS, lodash.cloneDeep(permissions));
+        ROLES.value = lodash.cloneDeep(roles);
+        USERINFO.value = lodash.cloneDeep(Object.assign({}, user, { regionNo }));
+        PERMISSIONS.value = lodash.cloneDeep(permissions);
       } catch (error) {
         console.warn(error);
       }
@@ -179,7 +179,7 @@ export const useStoreSystem = defineStore(
 
     const setCollapsed = collapsed => {
       try {
-        set(COLLAPSED, collapsed);
+        COLLAPSED.value = collapsed;
       } catch (error) {
         console.warn(error);
       }
@@ -187,8 +187,7 @@ export const useStoreSystem = defineStore(
 
     const setRouters = routers => {
       try {
-        console.warn('setRouters', routers);
-        set(ROUTERS, routers);
+        ROUTERS.value = routers;
       } catch (error) {
         console.warn(error);
       }
@@ -202,13 +201,13 @@ export const useStoreSystem = defineStore(
         const currentTab = Object.assign({}, tab, { closable: true, timeStamp: dayjs().format(FORMAT) });
         if (index > -1) {
           const nextRouterTabs = prevRouterTabs.map(routerTab => (routerTab.path === tab.path ? currentTab : routerTab));
-          set(ROUTER_TABS, nextRouterTabs);
+          ROUTER_TABS.value = nextRouterTabs;
         } else {
           const nextRouterTabs = prevRouterTabs.concat([currentTab]);
-          set(ROUTER_TABS, nextRouterTabs);
+          ROUTER_TABS.value = nextRouterTabs;
         }
 
-        set(ACTIVE_ROUTER_TAB, currentTab);
+        ACTIVE_ROUTER_TAB.value = currentTab;
       } catch (error) {
         console.warn(error);
       }
@@ -220,12 +219,14 @@ export const useStoreSystem = defineStore(
         const prevActiveRouterTab = get(ACTIVE_ROUTER_TAB);
 
         const nextRouterTabs = prevRouterTabs.filter(routerTab => routerTab.path !== key);
-        set(ROUTER_TABS, nextRouterTabs);
+        ROUTER_TABS.value = nextRouterTabs;
 
         if (prevActiveRouterTab.path === key) {
           const routerTabsByTimeStamp = lodash.cloneDeep(nextRouterTabs).sort((prev, next) => (dayjs(prev.timeStamp).isBefore(dayjs(next.timeStamp)) ? 1 : -1));
           const currentTab = routerTabsByTimeStamp[0];
-          currentTab && set(ACTIVE_ROUTER_TAB, currentTab);
+          if (currentTab) {
+            ACTIVE_ROUTER_TAB.value = currentTab;
+          }
         }
       } catch (error) {
         console.warn(error);
@@ -239,9 +240,9 @@ export const useStoreSystem = defineStore(
         const currentTab = Object.assign({}, tab, { timeStamp: dayjs().format(FORMAT) });
         if (index > -1) {
           const nextRouterTabs = prevRouterTabs.map(routerTab => (routerTab.path === tab.path ? currentTab : routerTab));
-          set(ROUTER_TABS, nextRouterTabs);
+          ROUTER_TABS.value = nextRouterTabs;
         }
-        set(ACTIVE_ROUTER_TAB, currentTab);
+        ACTIVE_ROUTER_TAB.value = currentTab;
       } catch (error) {
         console.warn(error);
       }

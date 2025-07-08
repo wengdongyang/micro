@@ -103,8 +103,8 @@ const initFormState = () => {
     const storeIsRememberMe = get(computedTenantIsRememberMe);
     const storeLoginFormState = get(computedTenantLoginFormState);
     if (storeIsRememberMe) {
-      set(isRememberMe, storeIsRememberMe);
-      set(formState, Object.assign(storeLoginFormState, { code: '', uuid: '' }));
+      isRememberMe.value = storeIsRememberMe;
+      formState.value = Object.assign(storeLoginFormState, { code: '', uuid: '' });
     }
   } catch (error) {
     console.warn(error);
@@ -128,7 +128,7 @@ const getUserInfoPermissionsRoles = async () => {
 
 const onUpdateCaptchaImage = () => {
   try {
-    set(formState, Object.assign({}, get(formState), { code: '' }));
+    formState.value = Object.assign({}, get(formState), { code: '' });
   } catch (error) {
     console.warn(error);
   }

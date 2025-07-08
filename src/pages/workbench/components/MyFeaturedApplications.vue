@@ -57,9 +57,9 @@ const { loading, run: getDetailInfo } = useRequest(apiGetApplicationOwnerSearch,
   manual: true,
   onSuccess: ({ code, data, msg }) => {
     if (code === 200) {
-      set(featuredApplications, data.list || []);
+      featuredApplications.value = data.list || [];
     } else {
-      set(featuredApplications, []);
+      featuredApplications.value = [];
       message.error(msg);
     }
   },

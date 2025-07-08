@@ -2,10 +2,9 @@
   <img :class="$style['captcha-image']" :src="captchaImage" @click="getCaptchaImage" />
 </template>
 <script lang="jsx" setup>
-import { ref, computed } from 'vue';
+import { get, tryOnMounted } from '@vueuse/core';
 import { message } from 'ant-design-vue';
-import * as lodash from 'lodash';
-import { get, set, tryOnMounted } from '@vueuse/core';
+import { computed, ref } from 'vue';
 // apis
 import { apiGetCaptchaImage } from '@src/apis';
 
@@ -42,7 +41,7 @@ const getCaptchaImage = async () => {
   try {
     const { code, img, uuid, msg } = await apiGetCaptchaImage();
     if (code === 200 && img && uuid) {
-      set(captchaUrl, img);
+      captchaUrl.value = img;
       emits('update:uuid', uuid);
       emits('updateCaptchaImage');
     } else {

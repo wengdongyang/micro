@@ -18,7 +18,7 @@ export const useModalVisible = () => {
 
   const setModalVisible = nextModalVisible => {
     try {
-      set(modalVisible, Boolean(nextModalVisible));
+      modalVisible.value = Boolean(nextModalVisible);
     } catch (error) {
       console.warn(error);
     }
@@ -32,7 +32,7 @@ export const useModalType = () => {
   const setModalType = nextModalType => {
     try {
       if ([MODAL_TYPE.ADD, MODAL_TYPE.EDIT, MODAL_TYPE.WATCH].includes(nextModalType)) {
-        set(modalType, nextModalType);
+        modalType.value = nextModalType;
       } else {
         console.warn('useModalType', nextModalType);
       }

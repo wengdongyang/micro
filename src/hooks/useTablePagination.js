@@ -1,4 +1,3 @@
-import { set } from '@vueuse/core';
 import { useRequest } from 'ahooks-vue';
 import { message } from 'ant-design-vue';
 import * as lodash from 'lodash';
@@ -34,13 +33,13 @@ export const useTablePaginationDataSourceTotal = axiosFunction => {
       manual: true,
       onSuccess: ({ code, data, msg }) => {
         if (code === 200) {
-          set(total, data.total || 0);
-          set(dataSource, data.list || []);
-          set(activeRecord, {});
+          total.value = data.total || 0;
+          dataSource.value = data.list || [];
+          activeRecord.value = {};
         } else {
-          set(total, 0);
-          set(dataSource, []);
-          set(activeRecord, {});
+          total.value = 0;
+          dataSource.value = [];
+          activeRecord.value = {};
           message.error(msg);
         }
       },
@@ -49,7 +48,7 @@ export const useTablePaginationDataSourceTotal = axiosFunction => {
 
   const resetPagination = () => {
     try {
-      set(pagination, lodash.cloneDeep(defaultPagination));
+      pagination.value = lodash.cloneDeep(defaultPagination);
       getDataSourceTotal();
     } catch (error) {
       console.warn(error);
@@ -58,7 +57,7 @@ export const useTablePaginationDataSourceTotal = axiosFunction => {
 
   const onChangePagination = (page, pageSize) => {
     try {
-      set(pagination, { page: page, limit: pageSize });
+      pagination.value = { page: page, limit: pageSize };
       getDataSourceTotal();
     } catch (error) {
       console.warn(error);
@@ -67,7 +66,7 @@ export const useTablePaginationDataSourceTotal = axiosFunction => {
 
   const setActiveRecord = nextActiveRecord => {
     try {
-      set(activeRecord, nextActiveRecord);
+      activeRecord.value = nextActiveRecord;
     } catch (error) {
       console.warn(error);
     }
