@@ -21,9 +21,9 @@ import { tryOnMounted } from '@vueuse/core';
 // configs
 import { ENV } from '@src/configs';
 // components
-import SystemLayout from './components/SystemLayout.vue';
-import SystemHeader from './components/SystemHeader.vue';
-import SystemMenus from './components/SystemMenus.jsx';
+import SystemLayout from './components/system-layout.vue';
+import SystemHeader from './components/system-header.vue';
+import SystemMenus from './components/system-menus.jsx';
 // props
 // emits
 // refs

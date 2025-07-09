@@ -6,7 +6,13 @@
       <template #table> </template>
     </table-pagination-layout>
     <a-modal v-model:open="visibleModal" :title="modalType === MODAL_TYPE.ADD ? '新增' : '编辑'" :footer="null" :maskClosable="false">
-      <my-featured-applications v-if="visibleModal" :modalType="modalType" :activeRecord="activeRecord" @cancel="() => setVisibleModal(false)" @editSuccessCallBack="() => setVisibleModal(false)" />
+      <add-or-update
+        v-if="visibleModal"
+        :modalType="modalType"
+        :activeRecord="activeRecord"
+        @cancel="() => setVisibleModal(false)"
+        @editSuccessCallBack="() => setVisibleModal(false)"
+      />
     </a-modal>
   </page-layout>
 </template>
@@ -26,14 +32,15 @@ import { useStoreSystem } from '@src/stores';
 import { MODAL_TYPE } from '@src/configs';
 // components
 import { PageLayout, TablePaginationLayout } from '@src/components';
-import MyFeaturedApplications from './components/my-featured-applications.vue';
+import AddOrUpdate from './components/add-or-update.vue';
 // props
 const props = defineProps({});
 // emits
 const emits = defineEmits(['']);
 // refs
 // computed
-const { loading, pagination, dataSource, total, activeRecord, getDataSourceTotal, resetPagination, onChangePagination, setActiveRecord } = useTablePaginationDataSourceTotal();
+const { loading, pagination, dataSource, total, activeRecord, getDataSourceTotal, resetPagination, onChangePagination, setActiveRecord } =
+  useTablePaginationDataSourceTotal();
 const [modalType, setModalType] = useModalType();
 const [visibleModal, setVisibleModal] = useModalVisible();
 
@@ -41,5 +48,5 @@ console.error({ setModalType, get, set, tryOnMounted, message, lodash, ref, unre
 console.error({ loading, pagination, dataSource, total, activeRecord, getDataSourceTotal, resetPagination, onChangePagination, setActiveRecord });
 </script>
 <style lang="less" scoped>
-@import './Workbench.less';
+@import './workbench.less';
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <img :class="$style['captcha-image']" :src="captchaImage" @click="getCaptchaImage" />
+  <img :class="$style['captcha-image']" :src="captchaImage" width="114" height="40" @click="getCaptchaImage" />
 </template>
 <script lang="jsx" name="CaptchaImage" setup>
 import { get, tryOnMounted } from '@vueuse/core';
@@ -20,9 +20,7 @@ const captchaUrl = ref();
 
 const captchaImage = computed(() => {
   try {
-    const regExp = new RegExp(
-      /^(((ht|f)tps?):\/\/)?([^!@#$%^&*?.\s-]([^!@#$%^&*?.\s]{0,63}[^!@#$%^&*?.\s])?\.)+[a-z]{2,6}\/?/,
-    );
+    const regExp = new RegExp(/^(((ht|f)tps?):\/\/)?([^!@#$%^&*?.\s-]([^!@#$%^&*?.\s]{0,63}[^!@#$%^&*?.\s])?\.)+[a-z]{2,6}\/?/);
     const url = get(captchaUrl);
     if (regExp.test(url)) {
       return url;
@@ -58,7 +56,12 @@ defineExpose({
 </script>
 <style lang="less" module>
 .captcha-image {
+  overflow: hidden;
+
   width: 100%;
-  object-fit: cover;
+
+  border-radius: 2px;
+
+  object-fit: contain;
 }
 </style>

@@ -48,5 +48,5 @@ console.error({ setModalType, get, set, tryOnMounted, message, lodash, ref, unre
 console.error({ loading, pagination, dataSource, total, activeRecord, getDataSourceTotal, resetPagination, onChangePagination, setActiveRecord });
 </script>
 <style lang="less" scoped>
-@import './Cache-monitoring.less';
+@import './cache-monitoring.less';
 </style>

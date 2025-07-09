@@ -6,7 +6,7 @@ import * as lodash from 'lodash';
 // mixins
 // configs
 // components
-const { upperFirst } = lodash.default;
+const { upperFirst, kebabCase } = lodash.default;
 export const templateIndexVue = ({ name, components = [] }) => {
   const Name = upperFirst(name);
   return `<template>
@@ -59,7 +59,7 @@ console.error({ setModalType, get, set, tryOnMounted, message, lodash, ref, unre
 console.error({ loading, pagination, dataSource, total, activeRecord, getDataSourceTotal, resetPagination, onChangePagination, setActiveRecord });
 </script>
 <style lang="less" scoped>
-@import './${Name}.less';
+@import './${kebabCase(name)}.less';
 </style>
 `;
 };
@@ -128,6 +128,15 @@ tryOnMounted(async () => {
 });
 </script>
 <style lang="less" scoped>
-@import './${Name}.less';
+@import './${kebabCase(name)}.less';
 </style>`;
+};
+
+export const templateJS = () => {
+  return `// apis
+// hooks
+// utils
+// stores
+// configs
+// components`;
 };

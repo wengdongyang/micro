@@ -88,5 +88,5 @@ const onEditTab = (target, action) => {
 };
 </script>
 <style lang="less" module>
-@import './SystemLayout.module.less';
+@import './system-layout.module.less';
 </style>

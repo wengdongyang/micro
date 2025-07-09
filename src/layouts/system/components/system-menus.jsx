@@ -19,7 +19,7 @@ import { useStoreSystem } from '@src/stores';
 // methods
 // watch
 export default defineComponent(
-  () => {
+  (props, { slots, attrs }) => {
     const storeSystem = useStoreSystem();
     const { setRouters, addRouterTab } = storeSystem;
     const { computedRouters } = storeToRefs(storeSystem);
@@ -82,9 +82,7 @@ export default defineComponent(
     return () => (
       <a-menu mode={'inline'} theme={'dark'} onClick={onClickMenu}>
         {get(computedRouters).map(menu => (
-          <Fragment key={menu.name}>
-            {menu?.children?.length > 0 ? renderSubMenuGroup(menu) : renderMenuItem(menu)}
-          </Fragment>
+          <Fragment key={menu.name}>{menu?.children?.length > 0 ? renderSubMenuGroup(menu) : renderMenuItem(menu)}</Fragment>
         ))}
       </a-menu>
     );

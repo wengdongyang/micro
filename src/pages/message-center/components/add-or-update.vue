@@ -61,5 +61,5 @@ tryOnMounted(async () => {
 });
 </script>
 <style lang="less" scoped>
-@import './Add-or-update.less';
+@import './add-or-update.less';
 </style>

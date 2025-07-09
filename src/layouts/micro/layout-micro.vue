@@ -28,9 +28,9 @@ import { nextTick, onMounted, computed } from 'vue';
 import { useStoreSystem, useStoreUserAuth } from '@src/stores';
 // configs
 // components
-import SystemHeader from '@src/layouts/system/components/SystemHeader.vue';
-import SystemLayout from '@src/layouts/system/components/SystemLayout.vue';
-import SystemMenus from '@src/layouts/system/components/SystemMenus.jsx';
+import SystemLayout from '@src/layouts/system/components/system-layout.vue';
+import SystemHeader from '@src/layouts/system/components/system-header.vue';
+import SystemMenus from '@src/layouts/system/components/system-menus.jsx';
 // props
 // emits
 // refs

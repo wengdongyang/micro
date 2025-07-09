@@ -8,9 +8,9 @@ import { mkdirSync, writeFileSync } from './utils.js';
 // configs
 import { pageGroupList } from './configs.js';
 // components
-import { templateAddOrUpdateComponentVue, templateIndexVue } from './templateFile.js';
+import { templateAddOrUpdateComponentVue, templateIndexVue, templateJS } from './templateFile.js';
 
-const { get, upperFirst, kebabCase, hasIn } = lodash.default;
+const { get, kebabCase, hasIn } = lodash.default;
 
 const createPageGroup = async (pageGroup, basePath) => {
   try {
@@ -28,14 +28,14 @@ const createPageGroup = async (pageGroup, basePath) => {
 const createPage = async (page, basePath) => {
   try {
     const pageName = get(page, ['name']);
-    const PageName = kebabCase(pageName);
     const components = get(page, ['components']) || [];
-    const filePath = `${basePath}/${PageName}`;
+    const filePath = `${basePath}/${kebabCase(pageName)}`;
     mkdirSync(filePath);
     mkdirSync(`${filePath}/components`);
     writeFileSync(`${filePath}/components/.gitkeep`, 'null not found'); // 生成 对应的占位文件
-    writeFileSync(`${filePath}/${PageName}.vue`, templateIndexVue({ name: pageName, components }));
-    writeFileSync(`${filePath}/${PageName}.less`, ``);
+    writeFileSync(`${filePath}/${kebabCase(pageName)}.vue`, templateIndexVue({ name: pageName, components }));
+    writeFileSync(`${filePath}/${kebabCase(pageName)}.less`, ``);
+    writeFileSync(`${filePath}/hooks.js`, templateJS(), true);
     components.forEach(component => {
       const Component = kebabCase(component.name);
       writeFileSync(`${filePath}/components/${Component}.vue`, templateAddOrUpdateComponentVue({ name: Component }));

@@ -61,5 +61,5 @@ tryOnMounted(async () => {
 });
 </script>
 <style lang="less" scoped>
-@import './My-featured-applications.less';
+@import './my-featured-applications.less';
 </style>
